@@ -1,5 +1,9 @@
-//Route: Para la navegación de las paginas en AngularJS
-
+/*Desarrollador: Carlos Villafuerte, Esteban Blanco
+	Version: 1.0
+	Module AngularJS: AdminSqlServer.
+	Año: 2016
+    Descripción: route, para la navegación de las paginas en AngularJS.
+*/
 angular.module('AdminSqlServer', ['ngRoute'])
 .config(function($routeProvider) 
 {

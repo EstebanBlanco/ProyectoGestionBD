@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <!--Desarrollador: Carlos Villafuerte, Esteban Blanco
 	Version: 1.0
-	Module: AdminSqlServer
+	Module AngularJS: AdminSqlServer
 	Año: 2016 
 -->
 <html>
     <head>
-    	{{Hola}}
         <meta charset="utf-8">
         <title>Administrador BD SqlServer</title>
-        <!--Import Google Icon Font-->
+        <!--Importa las Iconos de google que utiliza Materialize.-->
         <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <!--Import materialize.css-->
         <link type="text/css" rel="stylesheet" href="lib/materialize-css/dist/css/materialize.min.css"  media="screen,projection"/>

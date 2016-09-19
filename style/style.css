@@ -1,50 +1,61 @@
-body{
-    background-image: url(../imagenes/847A29759.jpg)
+.fondoLogin{
+    background-image: url(../imagenes/847A29759.jpg);
+    position: absolute;
+    top:0; right:0;
+    bottom:0; left:0;
 }
 .bordeRedondo{
-    border-radius: 38px 81px 81px 81px;
--moz-border-radius: 38px 81px 81px 81px;
--webkit-border-radius: 38px 81px 81px 81px;
-border: 0px solid #000000;
+    border-radius: 34px 90px 34px 90px;
+    -moz-border-radius: 34px 90px 34px 90px;
+    -webkit-border-radius: 34px 90px 34px 90px;
+    border: 0px solid #000000;
 }
+
+.logoServer{
+  background-image: url(../imagenes/logoServer.png);
+  width: 20px;
+  height: 70px;
+}
+
+
  /* label color */
-   .input-field label {
-     color: #000;
-   }
-   /* label focus color */
-   .input-field input[type=text]:focus + label {
-     color: #000;
-   }
-    
-   .input-field input[type=password]:focus + label {
-     color: #000;
-   }
-   /* label underline focus color */
-   .input-field input[type=text]:focus {
-     border-bottom: 1px solid #000;
-     box-shadow: 0 1px 0 0 #000;
-   }
-   .input-field input[type=password]:focus {
-     border-bottom: 1px solid #000;
-     box-shadow: 0 1px 0 0 #000;
-   }
-   
-   /* valid color */
-   .input-field input[type=text].valid {
-     border-bottom: 1px solid #000;
-     box-shadow: 0 1px 0 0 #000;
-   }
-   [type="checkbox"].filled-in:checked+label:after{
-     border: 2px solid #000;
-     background-color:#000
-   }
-   /* invalid color */
-   .input-field input[type=text].invalid {
-     border-bottom: 1px solid #000;
-     box-shadow: 0 1px 0 0 #000;
-   }
-   /* icon prefix focus color */
-   .input-field .prefix.active {
-     color: #000;
-   }
+.input-field label {
+ color: #000;
+}
+/* label focus color */
+.input-field input[type=text]:focus + label {
+ color: #000;
+}
+
+.input-field input[type=password]:focus + label {
+ color: #000;
+}
+/* label underline focus color */
+.input-field input[type=text]:focus {
+ border-bottom: 1px solid #000;
+ box-shadow: 0 1px 0 0 #000;
+}
+.input-field input[type=password]:focus {
+ border-bottom: 1px solid #000;
+ box-shadow: 0 1px 0 0 #000;
+}
+
+/* valid color */
+.input-field input[type=text].valid {
+ border-bottom: 1px solid #000;
+ box-shadow: 0 1px 0 0 #000;
+}
+[type="checkbox"].filled-in:checked+label:after{
+ border: 2px solid #000;
+ background-color:#000
+}
+/* invalid color */
+.input-field input[type=text].invalid {
+ border-bottom: 1px solid #000;
+ box-shadow: 0 1px 0 0 #000;
+}
+/* icon prefix focus color */
+.input-field .prefix.active {
+ color: #000;
+}
 
