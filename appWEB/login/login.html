@@ -2,29 +2,31 @@
 <div class="fondoLogin" >
   <div class="container">
       <div style="margin-top: 120px">
-          <div>
+          <div id="drag" >
             <div class="row">
                 <div class="col s12 m4 l4 offset-m4 offset-l4">
                     <!--<img src="./imagenes/logoServer.png">-->
-                    <h5 class="center-align">Sql Server</h5>
+                    <h5 class="center-align" >Sql Server</h5>
                 </div>
             </div>
-            <div class="row">
+              <div class="row" >
                 <div class="col s12 m4 l4 offset-m4 offset-l4 bordeRedondo" style="background-color: #09324A">
                     <div class="input-field col s12 m12 l12">
-                      <i class="material-icons prefix">rss_feed</i>
-                      <input type="text" ng-model="dbName" placeholder="Estoy Probando" >
-                      <label>DB Name:</label>
+                        <i class="material-icons prefix">rss_feed</i>
+                        <select ng-model="dbName" material-select>
+                            <option ng-repeat="baseDatos in allDateBase" value="{{baseDatos.name}}">{{baseDatos.name}}</option> 
+                        </select>
+                        <label>DB Name:</label>
                     </div>
                     <div class="input-field col s12 m12 l12">
-                      <i class="material-icons prefix">account_circle</i>
-                      <input type="text" ng-model="userName">
-                      <label>Login:</label>
+                        <i class="material-icons prefix">account_circle</i>
+                        <input type="text" ng-model="userName">
+                        <label>Login:</label>
                     </div>
                     <div class="input-field col s12 m12 l12">
-                      <i class="material-icons prefix">vpn_key</i>
-                      <input type="password" ng-model="password">
-                      <label>Password:</label>
+                        <i class="material-icons prefix">vpn_key</i>
+                        <input type="password" ng-model="password">
+                        <label>Password:</label>
                     </div>
                 </div>
             </div>

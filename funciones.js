@@ -6,9 +6,7 @@
 */
 
 $(document).ready(function(){
-    $('#drag').draggable();
     $('select').material_select();
-    $('#drag1').draggable();
 });
 
   

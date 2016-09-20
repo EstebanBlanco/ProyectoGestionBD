@@ -1,28 +1,33 @@
 angular.module('AdminSqlServer')
 .controller("loginCtrl", function($scope,$http)
 {
-    console.log("Hola mae ya entre y me cai...");
-    $scope.autenticado = ["Windows Authentication","SQL Server Authentication"]
-    $scope.selecion = "";
-    $scope.habilitar = function(seleccionado)
+    $scope.GetAllDataBase = function()
     {
-        console.log(seleccionado);
+        console.log($scope.baseSeleccionada)
+        $scope.url = "http://localhost/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=GetAllDataBase";
+        $scope.data = {"":""};     
+        $http.post($scope.url,$scope.data).success( function(response){
+            if(response){ 
+                $scope.allDateBase = response;
+                console.log($scope.allDateBase);
+            }
+            else{
+                alert("..¡Fallo la conecion con Sql Server.");
+            }
+        }); 
     };
+    $scope.GetAllDataBase();
     
     $scope.conexionSqlServer = function(dbName,userName,password){
-        console.log(dbName+userName+password);
-    	$scope.url = "http://localhost/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=conectar";
-        $scope.data = {Cedula: "Hola..."};     
+    	$scope.url = "http://localhost/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=ConectarConUsuario";
+        $scope.data = {dbName: dbName,userName: userName, password:password};     
         $http.post($scope.url,$scope.data)
         .success(function (response)
         {
-            //console.log(response);
-            if(response)
-            {             
+            if(response){             
                 console.log(response);
             }
-            else
-            {
+            else{
                 alert("Se inserto el cliente");
             }
         });
