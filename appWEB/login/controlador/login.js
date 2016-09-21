@@ -1,5 +1,5 @@
 angular.module('AdminSqlServer')
-.controller("loginCtrl", function($scope,$http)
+.controller("loginCtrl", function($scope,$http,$location)
 {
     $scope.GetAllDataBase = function()
     {
@@ -24,11 +24,12 @@ angular.module('AdminSqlServer')
         $http.post($scope.url,$scope.data)
         .success(function (response)
         {
-            if(response){             
-                console.log(response);
+            if(response){
+                $location.path("/profile");
+                //console.log(response);
             }
             else{
-                alert("Se inserto el cliente");
+                alert("¡¡Fallo la conexion!!");
             }
         });
     };

@@ -12,9 +12,9 @@ angular.module('AdminSqlServer', ['ngRoute'])
         .when('/', {
             templateUrl	: 'appWEB/login/login.html',
             controller 	: 'loginCtrl'          
-        }).when('/prueba', {
-            templateUrl	: 'appWEB/prueba.html',
-            controller 	: 'loginCtrl'          
+        }).when('/profile', {
+            templateUrl	: 'appWEB/profile/profile.html',
+            controller 	: 'profileCtrl'          
         })
         .otherwise({
             redirectTo: '/'
