@@ -1,5 +1,5 @@
 .fondoLogin{
-    background-image: url(../imagenes/847A29759.jpg);
+    background-image: url(../imagenes/fondoLoginhtml.jpg);
     position: absolute;
     top:0; right:0;
     bottom:0; left:0;
@@ -9,6 +9,7 @@
     -moz-border-radius: 34px 90px 34px 90px;
     -webkit-border-radius: 34px 90px 34px 90px;
     border: 0px solid #000000;
+    background-color: #263238;
 }
 
 .logoServer{

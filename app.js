@@ -3,9 +3,9 @@
 	Module AngularJS: AdminSqlServer.
 	Año: 2016
     Descripción: route, para la navegación de las paginas en AngularJS.
-    
+    ','ui.materialize'
 */
-angular.module('AdminSqlServer', ['ngRoute','ui.materialize'])
+angular.module('AdminSqlServer', ['ngRoute'])
 .config(function($routeProvider) 
 {
     $routeProvider

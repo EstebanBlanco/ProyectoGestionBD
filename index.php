@@ -11,11 +11,10 @@
         <!--Importa las Iconos de google que utiliza Materialize.-->
         <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <!--Import materialize.css-->
-        <link type="text/css" rel="stylesheet" href="lib/materialize-css/dist/css/materialize.min.css"  media="screen,projection"/>
+        <!--<link type="text/css" rel="stylesheet" href="lib/materialize-css/dist/css/materialize.min.css"  media="screen,projection"/>-->
         <link rel="stylesheet" href="lib/jquery-ui/jquery-ui.min.css">
-        <link type="text/css" rel="stylesheet" href="style/style.css"/>
-        
-        
+        <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
+        <link type="text/css" rel="stylesheet" href="style/style.css"/>        
     </head>
     <body ng-app="AdminSqlServer">
         
@@ -24,21 +23,22 @@
         </div>
         
         <!--Aqui tiene que ir el jQuery para que funcione el select-->
-        <!-- Carga libreria jQuery.--> 
-        <script src="lib/jquery/dist/jquery.min.js"></script> 
-        <!-- Carga libreria jQuery-UI.-->
-        <script type="text/javascript" src="lib/jquery-ui/jquery-ui.min.js" ></script>
-        <!-- Carga libreria Materialize.-->
-        <script type="text/javascript" src="lib/materialize-css/dist/js/materialize.min.js"></script> 
+
         <!-- Carga libreria AngularJS.-->
     	<script type="text/javascript" src="lib/angular/angular.min.js" ></script>
         <script type="text/javascript" src="lib/angular/angular-route.min.js" ></script> 
-       
-        <script type="text/javascript" src="lib/angular/angular-materialize.min.js" ></script>      
+        <!-- Carga libreria jQuery.--> 
+        <script src="lib/jquery/dist/jquery.min.js"></script>
+        
+        <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+        <!-- Carga libreria jQuery-UI.-->
+        <script type="text/javascript" src="lib/jquery-ui/jquery-ui.min.js" ></script>
+        <!-- Carga libreria Materialize.-->
+        <!--<script type="text/javascript" src="lib/materialize-css/dist/js/materialize.min.js"></script> -->
+        <!--<script type="text/javascript" src="lib/angular/angular-materialize.min.js" ></script> -->     
+        
         <!--Aqui tiene que ir jQuery para que funcione lo de mover el div-->
         
-   
-
         <!--Carga el enrutamiento de AngularJS-->
         <script src="app.js"></script> 
         
