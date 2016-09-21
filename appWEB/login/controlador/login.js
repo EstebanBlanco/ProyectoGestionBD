@@ -25,8 +25,9 @@ angular.module('AdminSqlServer')
         .success(function (response)
         {
             if(response){
+                console.log(response);
                 $location.path("/profile");
-                //console.log(response);
+                
             }
             else{
                 alert("¡¡Fallo la conexion!!");

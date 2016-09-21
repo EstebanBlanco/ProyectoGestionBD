@@ -20,10 +20,6 @@ function ConectarConUsuario()
     if($conn){
         echo $conn;
     }
-    else{
-        echo 'Fallo la conección';
-        die(print_r(sqlsrv_errors(),TRUE));
-    }
 }
 
 function GetAllDataBase()
