@@ -50,7 +50,7 @@ function GetTable_and_Column(){
     if( $conn === false ) {
         die( print_r( sqlsrv_errors(), true));
     }
-    $sql = "SELECT TABLE_NAME as Tabla FROM INFORMATION_SCHEMA.TABLES";
+    $sql = "SELECT TABLE_NAME as Tabla,COLUMN_NAME as Columna FROM INFORMATION_SCHEMA.COLUMNS";
     /*$sql = "SELECT so.name AS Tabla, sc.name AS Columna, st.name AS Tipo, sc.max_length AS Tamaño "
             . "FROM sys.objects AS so INNER JOIN sys.columns AS sc ON so.object_id = sc.object_id "
             . "INNER JOIN sys.types AS st ON st.system_type_id = sc.system_type_id "

@@ -2,28 +2,6 @@
 angular.module('AdminSqlServer')
 .controller("profileCtrl", function($scope,$http,$location,serveData)
 {
-    $scope_get_Colunm = function(nombreTabla,temp,j2){
-        $scope.url = "http://localhost/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=get_Columna";
-        $scope.data = {Tabla: nombreTabla};
-        var respuesta;
-        var columnas = $http.post($scope.url,$scope.data)
-        .success(function (response)
-        {
-            if(response){
-                respuesta = response;
-                var paso;
-                for (paso = 0; paso < response.length; paso++) {
-                    temp.items.push({ name: response[paso].Columnas,iskey: false, figure: "Decision", color: "purple"});      
-                };
-            }
-            else{
-                alert("¡¡Fallo la conexion!!");
-            }
-        });
-        console.log("Por parametro temp");
-        console.log(temp);
-        return columnas.$$state;
-    };
     $scope.get_table_and_column = function(){
         $scope.url = "http://localhost/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=GetTable_and_Column";
         console.log(serveData);
@@ -35,7 +13,7 @@ angular.module('AdminSqlServer')
             $scope.array = [];
             $scope.array = response;
             //console.log(response);
-            $scope.iniciar = function(response,callback) {
+            $scope.iniciar = function(response) {
             var $ = go.GraphObject.make;  // para concisión en la definición de plantillas
             myDiagram =
                 $(go.Diagram, "modeloRelacional",  //debe nombrar o hacer referencia al elemento DIV HTML
@@ -110,13 +88,7 @@ angular.module('AdminSqlServer')
                         itemTemplate: itemTempl
                     },
                     new go.Binding("itemArray", "items"))
-                ),
-            $("Button",
-              { alignment: go.Spot.Right, alignmentFocus: go.Spot.Left,
-                click: addNodeAndLink },  // define click behavior for Button in Adornment
-              $(go.TextBlock, "inf",  // the Button content
-                { font: "bold 6pt sans-serif" })
-            )
+                )
               );  // end Node
 
             // define the Link template, representing a relationship
@@ -155,17 +127,45 @@ angular.module('AdminSqlServer')
 
             // Creacion del modelo E-R.. punto restauracion.
             var nodeDataArray2 = [];
-           
-            response.forEach(function(element,index,segunda){ 
-                var temp = {key: element.Tabla,items: []};
-                var j2 = {};
-                callback(element.Tabla,temp,j2);
-                console.log(j2);
-                nodeDataArray2.push(temp);
-            });
-            console.log("Holaa");
+            var NombreGlobal = "Inicio";
+            for (var i = 0; i < response.length; i++) {
+                var nombreTabla = response[i].Tabla;
+                console.log(nombreTabla);
+                if(NombreGlobal != nombreTabla){
+                    var json = {key: nombreTabla, items: []};
+                    for (var j = 0; j < response.length; j++) {
+                        if (nombreTabla == response[j].Tabla){
+                            var ite = {name: response[j].Columna, iskey: true, figure: "Decision", color: yellowgrad };
+                            json.items.push(ite);
+                        }
+                    };
+                    NombreGlobal = nombreTabla;
+                    nodeDataArray2.push(json);    
+                }
+            };
+            console.log("Con for anidado");
             console.log(nodeDataArray2);
-            var nodeDataArray = [
+            var linkDataArray = [
+                { from: "Productos", to: "Suppliers", text: "0..N", toText: "1" },
+                { from: "Productos", to: "Categorias", text: "0..N", toText: "1" },
+                { from: "Order Details", to: "Productos", text: "0..N", toText: "1" }
+                ];
+            console.log("Antes de entar");
+            console.log(nodeDataArray2);
+            myDiagram.model = new go.GraphLinksModel(nodeDataArray2, linkDataArray);
+            };
+            $scope.iniciar(response);
+        }
+        else{
+            alert("Viene limpio");
+        }
+    });
+    };
+    $scope.get_table_and_column();   
+});
+/*
+ * Ejemplo de JSON a armar
+ *             var nodeDataArray = [
               { key: "Productos",
                 items: [ { name: "ProductID", iskey: true, figure: "Decision", color: yellowgrad },
                          { name: "ProductName", iskey: false, figure: "Cube1", color: bluegrad },
@@ -189,39 +189,4 @@ angular.module('AdminSqlServer')
                          { name: "Quantity", iskey: false, figure: "MagneticData", color: greengrad },
                          { name: "Discount", iskey: false, figure: "MagneticData", color: greengrad } ] }
             ];
-            var linkDataArray = [
-                { from: "Productos", to: "Suppliers", text: "0..N", toText: "1" },
-                { from: "Productos", to: "Categorias", text: "0..N", toText: "1" },
-                { from: "Order Details", to: "Productos", text: "0..N", toText: "1" }
-                ];
-            myDiagram.model = new go.GraphLinksModel(nodeDataArray2, linkDataArray);
-            };
-            $scope.iniciar(response,$scope_get_Colunm);
-            function addNodeAndLink(e, b) {
-                console.log("Entre");
-              /*
-                // take a button panel in an Adornment, get its Adornment, and then get its adorned Node
-              var node = b.part.adornedPart;
-              // we are modifying the model, so conduct a transaction
-              var diagram = node.diagram;
-              diagram.startTransaction("add node and link");
-              // have the Model add the node data
-              var newnode = { key: "N" };
-              diagram.model.addNodeData(newnode);
-              // locate the node initially where the parent node is
-              diagram.findNodeForData(newnode).location = node.location;
-              // and then add a link data connecting the original node with the new one
-              var newlink = { from: node.data.key, to: newnode.key };
-              diagram.model.addLinkData(newlink);
-              // finish the transaction -- will automatically perform a layout
-              diagram.commitTransaction("add node and link");*/
-            }
-        }
-        else{
-            alert("Viene limpio");
-        }
-    });
-    };
-    $scope.get_table_and_column();
-    
-});
+ */
