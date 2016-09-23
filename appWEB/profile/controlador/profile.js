@@ -26,7 +26,6 @@ angular.module('AdminSqlServer')
     };
     $scope.get_table_and_column = function(){
         $scope.url = "http://localhost/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=GetTable_and_Column";
-        console.log("Estoy en profile" + serveData);
         console.log(serveData);
         $scope.data = {dbName: serveData.dbName,userName: serveData.userName, password: serveData.password}; 
         

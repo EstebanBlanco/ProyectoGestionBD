@@ -64,6 +64,7 @@ function GetTable_and_Column(){
         echo 'Entre en el error(Falso)';
         die( print_r( sqlsrv_errors(), true) );
     }
+
     $rows = array();
     while( $row = sqlsrv_fetch_object($stmt)){
         $rows[]= $row;
