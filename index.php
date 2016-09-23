@@ -14,7 +14,7 @@
         <!--<link type="text/css" rel="stylesheet" href="lib/materialize-css/dist/css/materialize.min.css"  media="screen,projection"/>-->
         <link rel="stylesheet" href="lib/jquery-ui/jquery-ui.min.css">
         <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
-        <link type="text/css" rel="stylesheet" href="style/style.css"/>        
+        <link type="text/css" rel="stylesheet" href="style/style.css"/>   
     </head>
     <body ng-app="AdminSqlServer">
         
@@ -31,6 +31,8 @@
         <script src="lib/bootstrap/js/bootstrap.min.js"></script>
         <!-- Carga libreria jQuery-UI.-->
         <script type="text/javascript" src="lib/jquery-ui/jquery-ui.min.js" ></script>
+        
+        <script type="text/javascript" src="lib/chart/Chart.js"></script>
     
         <!--Carga el enrutamiento de AngularJS-->
         <script src="app.js"></script> 
@@ -42,5 +44,6 @@
         <!-- Carga de controladores.-->
         <script type="text/javascript" src="appWEB/login/controlador/login.js" ></script>
         <script type="text/javascript" src="appWEB/profile/controlador/controlador.js"></script>
+        <script type="text/javascript" src="appWEB/estadisticas/controlador/estadisticas.js"></script>
     </body>
 </html>

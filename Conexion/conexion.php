@@ -13,7 +13,7 @@ function ConectarConUsuario()
 {
     $objDatos = json_decode(file_get_contents("php://input"));
     //$objDatos->dbName $objDatos->userName $objDatos->password
-    $serverName = "CARLOS\MSSQLSERVER1"; //serverName\instanceName
+    $serverName = "ESTEBANPC\SQLEXPRESS"; //serverName\instanceName
     $connectionInfo = array("Database"=>$objDatos->dbName, "UID"=>$objDatos->userName, "PWD"=>$objDatos->password);
     //$conn = sqlsrv_connect($serverName);
     $conn = sqlsrv_connect($serverName,$connectionInfo );
@@ -26,7 +26,7 @@ function GetAllDataBase()
 {
     $objDatos = json_decode(file_get_contents("php://input"));
     
-    $serverName = "CARLOS\MSSQLSERVER1"; //serverName\instanceName
+    $serverName = "ESTEBANPC\SQLEXPRESS"; //serverName\instanceName
 	// Puesto que no se han especificado UID ni PWD en el array  $connectionInfo,
 	// La conexión se intentará utilizando la autenticación Windows.
         //$connectionInfo = array( "Database"=>"RED_PARTY_TEC");
