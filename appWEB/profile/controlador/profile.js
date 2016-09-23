@@ -11,7 +11,9 @@ angular.module('AdminSqlServer')
         $http.post($scope.url,$scope.data).success(
         function(response){
         if(response){
-            console.log(response);
+            $scope.array = [];
+            $scope.array = response;
+            console.log($scope.array);
             $scope.iniciar = function() {
             var $ = go.GraphObject.make;  // para concisión en la definición de plantillas
             myDiagram =
