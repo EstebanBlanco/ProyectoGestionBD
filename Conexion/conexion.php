@@ -11,7 +11,7 @@ else
 function ConectarConUsuario(){
     $objDatos = json_decode(file_get_contents("php://input"));
     //$objDatos->dbName $objDatos->userName $objDatos->password
-    $serverName = "ESTEBANPC\SQLEXPRESS"; //serverName\instanceName
+    $serverName = "CARLOS\MSSQLSERVER1"; //serverName\instanceName
     $connectionInfo = array("Database"=>$objDatos->dbName, "UID"=>$objDatos->userName, "PWD"=>$objDatos->password);
     //$conn = sqlsrv_connect($serverName);
     $conn = sqlsrv_connect($serverName,$connectionInfo );
@@ -25,7 +25,8 @@ function GetAllDataBase(){
     $serverName = "CARLOS\MSSQLSERVER1";
     $connectionInfo = array("CharacterSet" => "UTF-8", "ReturnDatesAsStrings" => true, "MultipleActiveResultSets" => true);
     $conn = sqlsrv_connect($serverName,$connectionInfo);
-    $query = "SELECT name, database_id, create_date FROM sys.databases"; 
+    $query = "SELECT name FROM master.dbo.sysdatabases WHERE name NOT IN ('master','model','msdb','tempdb')";
+    //$query = "SELECT name, database_id, create_date FROM sys.databases"; 
     $stmt = sqlsrv_query( $conn, $query);
     if( $stmt === false ) {
          die( print_r( sqlsrv_errors(), true));
@@ -44,24 +45,52 @@ function GetTable_and_Column(){
     $serverName = "CARLOS\MSSQLSERVER1";
     //$connectionInfo = array("Database"=>$objDatos->dbName, "UID"=>$objDatos->userName, "PWD"=>$objDatos->password);
         
-    $connectionInfo = array("Database"=>"RED_PARTY_TEC", "UID"=>"sa", "PWD"=>"2016","CharacterSet" => "UTF-8", "ReturnDatesAsStrings" => true, "MultipleActiveResultSets" => true);
+    $connectionInfo = array("Database"=>"RED_PARTY_TEC", "UID"=>"sa", "PWD"=>"2016","CharacterSet" => "UTF-8", "ReturnDatesAsStrings" => true, "MultipleActiveResultSets" => true);//
     $conn = sqlsrv_connect($serverName,$connectionInfo);
     if( $conn === false ) {
         die( print_r( sqlsrv_errors(), true));
     }
-    $sql = "select * from Personas";
+    $sql = "SELECT TABLE_NAME as Tabla FROM INFORMATION_SCHEMA.TABLES";
     /*$sql = "SELECT so.name AS Tabla, sc.name AS Columna, st.name AS Tipo, sc.max_length AS Tamaño "
-        . "FROM sys.objects so INNER JOIN sys.columns sc ON so.object_id = sc.object_id "
-        . "INNER JOIN sys.types st ON st.system_type_id = sc.system_type_id "
-        . "AND st.name != ? WHERE so.type = ? ORDER BY so.name,sc.name";*/
+            . "FROM sys.objects AS so INNER JOIN sys.columns AS sc ON so.object_id = sc.object_id "
+            . "INNER JOIN sys.types AS st ON st.system_type_id = sc.system_type_id "
+            . "AND st.name != ? "
+            . "WHERE so.type = ? ORDER BY so.name,sc.name";*/
     $params = array("sysname","U");
-    $stmt = sqlsrv_query($conn,$sql);
+    $stmt = sqlsrv_query($conn,$sql,$params);
     //$stmt = sqlsrv_prepare($conn, $sql, $params);
     //$result = sqlsrv_execute($stmt);
     if( $stmt === false) {
+        echo 'Entre en el error(Falso)';
         die( print_r( sqlsrv_errors(), true) );
     }
-    $rows = array();  
+    $rows = array();
+    while( $row = sqlsrv_fetch_object($stmt)){
+        $rows[]= $row;
+        //echo json_encode($row);
+    }
+    echo (json_encode($rows));
+    sqlsrv_free_stmt( $stmt);  
+    sqlsrv_close( $conn);   
+}
+
+function get_Columna(){
+    $objDatos = json_decode(file_get_contents("php://input"));
+    $serverName = "CARLOS\MSSQLSERVER1";
+    //$connectionInfo = array("Database"=>$objDatos->dbName, "UID"=>$objDatos->userName, "PWD"=>$objDatos->password);
+        
+    $connectionInfo = array("Database"=>"RED_PARTY_TEC", "UID"=>"sa", "PWD"=>"2016","CharacterSet" => "UTF-8", "ReturnDatesAsStrings" => true, "MultipleActiveResultSets" => true);//
+    $conn = sqlsrv_connect($serverName,$connectionInfo);
+    if( $conn === false ) {
+        die( print_r( sqlsrv_errors(), true));
+    }
+    $sql = "select column_name as Columnas from INFORMATION_SCHEMA.COLUMNS where table_name = '$objDatos->Tabla'";
+    $stmt = sqlsrv_query($conn,$sql);
+    if( $stmt === false) {
+        echo 'Entre en el error(Falso)';
+        die( print_r( sqlsrv_errors(), true) );
+    }
+    $rows = array();
     while( $row = sqlsrv_fetch_object($stmt)){
         $rows[]= $row;
     }
