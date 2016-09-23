@@ -12,6 +12,7 @@
         <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" href="lib/jquery-ui/jquery-ui.min.css">
         <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
+
         <link type="text/css" rel="stylesheet" href="style/style.css"/>
         <!--Da un formtado en el cuadro..-->
         <link href="lib/assets/css/goSamples.css" rel="stylesheet" type="text/css" />
@@ -34,8 +35,9 @@
         <!-- Carga libreria Bootstrap.-->
         <script src="lib/bootstrap/js/bootstrap.min.js"></script>
         <!-- Carga libreria jQuery-UI.-->
-        <!-- <script type="text/javascript" src="lib/jquery-ui/jquery-ui.min.js" ></script> -->
-                
+        <script type="text/javascript" src="lib/jquery-ui/jquery-ui.min.js" ></script>     
+        <script type="text/javascript" src="lib/chart/Chart.js"></script>
+   
         <!--Carga el enrutamiento de AngularJS-->
         <script src="app.js"></script> 
         
@@ -46,6 +48,7 @@
         
         <!-- Carga de controladores.-->
         <script type="text/javascript" src="appWEB/login/controlador/login.js" ></script>
+        <script type="text/javascript" src="appWEB/estadisticas/controlador/estadisticas.js"></script>
         <script type="text/javascript" src="appWEB/profile/controlador/profile.js"></script>
     </body>
 </html>
