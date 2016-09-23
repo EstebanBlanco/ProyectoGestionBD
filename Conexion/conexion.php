@@ -50,21 +50,12 @@ function GetTable_and_Column(){
     if( $conn === false ) {
         die( print_r( sqlsrv_errors(), true));
     }
-    $sql = "SELECT TABLE_NAME as Tabla FROM INFORMATION_SCHEMA.TABLES";
-    /*$sql = "SELECT so.name AS Tabla, sc.name AS Columna, st.name AS Tipo, sc.max_length AS Tamaño "
-            . "FROM sys.objects AS so INNER JOIN sys.columns AS sc ON so.object_id = sc.object_id "
-            . "INNER JOIN sys.types AS st ON st.system_type_id = sc.system_type_id "
-            . "AND st.name != ? "
-            . "WHERE so.type = ? ORDER BY so.name,sc.name";*/
-    $params = array("sysname","U");
-    $stmt = sqlsrv_query($conn,$sql,$params);
-    //$stmt = sqlsrv_prepare($conn, $sql, $params);
-    //$result = sqlsrv_execute($stmt);
+    $sql = "SELECT TABLE_NAME as Tabla,COLUMN_NAME as Columna FROM INFORMATION_SCHEMA.COLUMNS";
+    $stmt = sqlsrv_query($conn,$sql);
     if( $stmt === false) {
         echo 'Entre en el error(Falso)';
         die( print_r( sqlsrv_errors(), true) );
     }
-
     $rows = array();
     while( $row = sqlsrv_fetch_object($stmt)){
         $rows[]= $row;
