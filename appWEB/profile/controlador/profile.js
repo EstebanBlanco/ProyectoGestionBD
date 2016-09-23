@@ -4,14 +4,15 @@ angular.module('AdminSqlServer')
 {
     $scope.get_table_and_column = function(){
         $scope.url = "http://localhost:8080/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=GetTable_and_Column";
-        console.log("Estoy en profile" + serveData);
         console.log(serveData);
         $scope.data = {dbName: serveData.dbName,userName: serveData.userName, password: serveData.password}; 
         
         $http.post($scope.url,$scope.data).success(
         function(response){
         if(response){
-            console.log(response);
+            $scope.array = [];
+            $scope.array = response;
+            console.log($scope.array);
             $scope.iniciar = function() {
             var $ = go.GraphObject.make;  // para concisión en la definición de plantillas
             myDiagram =
