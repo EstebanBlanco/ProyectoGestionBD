@@ -1,5 +1,5 @@
 angular.module('AdminSqlServer')
-.controller("loginCtrl", function($scope,$http,$location)
+.controller("loginCtrl", function($scope,$http,$location,serveData)
 {
     $scope.GetAllDataBase = function()
     {
@@ -9,7 +9,7 @@ angular.module('AdminSqlServer')
         $http.post($scope.url,$scope.data).success( function(response){
             if(response){ 
                 $scope.allDateBase = response;
-                console.log($scope.allDateBase);
+                console.log(response);
             }
             else{
                 alert("..¡Fallo la conecion con Sql Server.");
@@ -25,6 +25,9 @@ angular.module('AdminSqlServer')
         .success(function (response)
         {
             if(response){
+                serveData.dbName = dbName;
+                serveData.userName = userName;
+                serveData.password = password;
                 console.log(response);
                 $location.path("/profile");
                 
