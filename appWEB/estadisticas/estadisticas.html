@@ -1,4 +1,15 @@
 
-
-<div></div>
-<canvas id="myChart" width="400" height="400"></canvas>
+<div>
+    <div class="row">
+        <h1>Vista Estadisticas</h1>
+    </div>
+    <div>
+         <canvas id="myChart" width="400" height="400"></canvas>
+    </div>
+    <div>
+         <button ng-click="ObtenerEstadisticasArchivo()">Buscar</button>
+        <select class="form-control"  ng-model="nombreArchivo">
+            <option ng-repeat="archivo in listaArchivos" value="{{archivo.name}}">{{archivo.name}}</option> 
+        </select>
+    </div>
+</div>
