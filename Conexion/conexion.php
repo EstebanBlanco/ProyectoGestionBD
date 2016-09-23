@@ -84,8 +84,8 @@ function GetTable_and_Column(){
     
     $rows = array();  
     // Hacer que sea disponible para su lectura la primera (y en este caso única) fila del conjunto resultado.
-    $row = sqlsrv_fetch( $stmt );
-    echo $row;
+    sqlsrv_fetch( $stmt );
+   
     
     while( $row = sqlsrv_fetch_array($stmt)) {
             $rows[] = $row;
