@@ -3,7 +3,7 @@ angular.module('AdminSqlServer')
 {
     $scope.GetAllDataBase = function()
     {
-        console.log($scope.baseSeleccionada)
+        console.log($scope.baseSeleccionada);
         $scope.url = "http://localhost/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=GetAllDataBase";
         $scope.data = {"":""};     
         $http.post($scope.url,$scope.data).success( function(response){

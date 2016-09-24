@@ -173,3 +173,68 @@ function ObtenerArchivosBD(){
     sqlsrv_free_stmt( $stmt);  
     sqlsrv_close($conn); 
 }
+
+function GetAllSchemes(){
+    $objDatos = json_decode(file_get_contents("php://input"));
+    $serverName = "CARLOS\MSSQLSERVER1";
+    $connectionInfo = array("Database"=>$objDatos->dbName, "UID"=>$objDatos->userName, "PWD"=>$objDatos->password,"CharacterSet" => "UTF-8", "ReturnDatesAsStrings" => true, "MultipleActiveResultSets" => true);
+    $conn = sqlsrv_connect($serverName,$connectionInfo);
+    if( $conn === false ) {
+        die( print_r( sqlsrv_errors(), true));
+    }
+    $sql = "SELECT SCHEMA_NAME Nombre FROM INFORMATION_SCHEMA.SCHEMATA";
+    $stmt = sqlsrv_query($conn,$sql);
+    if( $stmt === false) {
+        die( print_r( sqlsrv_errors(), true) );
+    }
+    $rows = array();
+    while( $row = sqlsrv_fetch_object($stmt)){
+        $rows[]= $row;
+    }
+    echo (json_encode($rows));
+    sqlsrv_free_stmt( $stmt);  
+    sqlsrv_close( $conn); 
+}
+
+function AddTabla(){
+    $objDatos = json_decode(file_get_contents("php://input"));
+    $serverName = "CARLOS\MSSQLSERVER1";
+    $connectionInfo = array("Database"=>$objDatos->dbName, "UID"=>$objDatos->userName, "PWD"=>$objDatos->password,"CharacterSet" => "UTF-8", "ReturnDatesAsStrings" => true, "MultipleActiveResultSets" => true);
+    $conn = sqlsrv_connect($serverName,$connectionInfo);
+        if( $conn === false ) {
+        die( print_r( sqlsrv_errors(), true));
+    }
+    print "Estoy en el archivo php ";
+    $Columnas = $objDatos->Columnas;
+    print_r($Columnas[0]);
+    $string = "";
+    for ($i = 0; $i < count($Columnas) ; $i++){
+        if($i == count($Columnas)-1){
+            $string .= $Columnas[$i]->Columna." ".$Columnas[$i]->Tipo." ".$Columnas[$i]->esLlave." ".$Columnas[$i]->esNull; 
+        }
+        else{
+            $string .= $Columnas[$i]->Columna." ".$Columnas[$i]->Tipo." ".$Columnas[$i]->esLlave." ".$Columnas[$i]->esNull.","; 
+        }       
+    }
+    $creacion = "";
+    if($objDatos->Esquema != ""){
+        $creacion .= "create table ".$objDatos->Esquema.".".$objDatos->NombreTabla."(".$string.")";
+    }  else {
+        $creacion .= "create table ".$objDatos->NombreTabla."(".$string.")";
+    }
+    print_r($creacion);
+            
+    $sql = $creacion;
+    $stmt = sqlsrv_query($conn,$sql);
+    if( $stmt === false) {
+        die( print_r( sqlsrv_errors(), true) );
+    }
+    $rows = array();
+    while( $row = sqlsrv_fetch_object($stmt)){
+        $rows[]= $row;
+    }
+    echo (json_encode($stmt));
+    sqlsrv_free_stmt( $stmt);  
+    sqlsrv_close( $conn);
+    
+}
