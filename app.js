@@ -16,10 +16,16 @@ angular.module('AdminSqlServer', ['ngRoute'])
         .when('/profile', {
             templateUrl	: 'appWEB/profile/profile.html',
             controller 	: 'profileCtrl'          
+        }).when('/modeloRelacional', {
+            templateUrl	: 'appWEB/modeloRelacional/modeloRelacional.html',
+            controller 	: 'modeloRelacionalCtrl'          
+        }).when('/tablas', {
+            templateUrl	: 'appWEB/modeloRelacinal/tablas.html',
+            controller 	: 'tablasCtrl'          
         })
         .when('/estadisticas', {
             templateUrl	: 'appWEB/estadisticas/estadisticas.html',
-            controller 	: 'estadisticasCtrl'          
+            controller 	: 'ControladorEstadisticas'          
         })
         .otherwise({
             redirectTo: '/'

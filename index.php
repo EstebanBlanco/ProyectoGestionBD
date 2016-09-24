@@ -43,12 +43,14 @@
         
         <!--Carga de jQuery events-->
         <script type="text/javascript" src="funciones.js"></script>  
-        
+        <!--Carga de un servicio, login de usuario-->
         <script type="text/javascript" src="appWEB/service.js" ></script>
         
         <!-- Carga de controladores.-->
         <script type="text/javascript" src="appWEB/login/controlador/login.js" ></script>
         <script type="text/javascript" src="appWEB/estadisticas/controlador/estadisticas.js"></script>
         <script type="text/javascript" src="appWEB/profile/controlador/profile.js"></script>
+        <script type="text/javascript" src="appWEB/modeloRelacional/controlador/modeloRelacional.js"></script>
+        <script type="text/javascript" src="appWEB/modeloRelacional/controlador/tablas.js"></script>
     </body>
 </html>

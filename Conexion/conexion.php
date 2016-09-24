@@ -43,25 +43,49 @@ function GetAllDataBase(){
 function GetTable_and_Column(){
     $objDatos = json_decode(file_get_contents("php://input"));
     $serverName = "CARLOS\MSSQLSERVER1";
-    //$connectionInfo = array("Database"=>$objDatos->dbName, "UID"=>$objDatos->userName, "PWD"=>$objDatos->password);
+    $connectionInfo = array("Database"=>$objDatos->dbName, "UID"=>$objDatos->userName, "PWD"=>$objDatos->password,"CharacterSet" => "UTF-8", "ReturnDatesAsStrings" => true, "MultipleActiveResultSets" => true);
         
-    $connectionInfo = array("Database"=>"RED_PARTY_TEC", "UID"=>"sa", "PWD"=>"2016","CharacterSet" => "UTF-8", "ReturnDatesAsStrings" => true, "MultipleActiveResultSets" => true);//
+    //$connectionInfo = array("Database"=>"RED_PARTY_TEC", "UID"=>"sa", "PWD"=>"2016","CharacterSet" => "UTF-8", "ReturnDatesAsStrings" => true, "MultipleActiveResultSets" => true);//
     $conn = sqlsrv_connect($serverName,$connectionInfo);
     if( $conn === false ) {
         die( print_r( sqlsrv_errors(), true));
     }
-    $sql = "SELECT TABLE_NAME as Tabla,COLUMN_NAME as Columna FROM INFORMATION_SCHEMA.COLUMNS";
-    $stmt = sqlsrv_query($conn,$sql);
+    $consulta1 = "SELECT TABLE_NAME as Tabla,COLUMN_NAME as Columna FROM INFORMATION_SCHEMA.COLUMNS";
+    $stmt = sqlsrv_query($conn,$consulta1);
     if( $stmt === false) {
         echo 'Entre en el error(Falso)';
         die( print_r( sqlsrv_errors(), true) );
     }
-    $rows = array();
+    $respuesta1 = array();
     while( $row = sqlsrv_fetch_object($stmt)){
-        $rows[]= $row;
-        //echo json_encode($row);
+        $respuesta1[]= $row;
     }
-    echo (json_encode($rows));
+    $consulta2 = "SELECT OBJECT_NAME(fk.parent_object_id) AS TableName,COL_NAME(fc.parent_object_id,fc.parent_column_id) AS ColumnName,OBJECT_NAME (fk.referenced_object_id) AS ReferenceTableName, COL_NAME(fc.referenced_object_id, fc.referenced_column_id) AS ReferenceColumnName FROM sys.foreign_keys AS fk INNER JOIN sys.foreign_key_columns AS fc ON fk.OBJECT_ID = fc.constraint_object_id";
+    $stmt2 = sqlsrv_query($conn,$consulta2);
+    if( $stmt === false) {
+        echo 'Entre en el error(Falso)';
+        die( print_r( sqlsrv_errors(), true) );
+    }
+    $respuesta2 = array();
+    while( $row = sqlsrv_fetch_object($stmt2)){
+        $respuesta2[]= $row;
+    }
+    $consulta3 = "SELECT Col.Column_Name as llave from INFORMATION_SCHEMA.TABLE_CONSTRAINTS Tab,INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE Col WHERE Col.Constraint_Name = Tab.Constraint_Name AND Col.Table_Name = Tab.Table_Name AND Constraint_Type = 'PRIMARY KEY'";
+    $stmt3 = sqlsrv_query($conn,$consulta3);
+    if( $stmt3 === false) {
+        echo 'Entre en el error(Falso)';
+        die( print_r( sqlsrv_errors(), true) );
+    }
+    $respuesta3 = array();
+    while( $row = sqlsrv_fetch_object($stmt3)){
+        $respuesta3[]= $row;
+    }
+    $allConsulta = array();
+    $allConsulta[] = $respuesta1;
+    $allConsulta[] = $respuesta2;
+    $allConsulta[] = $respuesta3;
+    echo (json_encode($allConsulta));
+    
     sqlsrv_free_stmt( $stmt);  
     sqlsrv_close( $conn);   
 }
@@ -94,7 +118,7 @@ function get_Columna(){
 function ObtenerInformacionEstadistica(){
     $objDatos = json_decode(file_get_contents("php://input"));
     
-    $serverName = "ESTEBANPC\SQLEXPRESS"; //serverName\instanceName
+    $serverName = "CARLOS\MSSQLSERVER1"; //serverName\instanceName
     $connectionInfo = array("Database"=>$objDatos->dbName, "UID"=>$objDatos->userName, "PWD"=>$objDatos->password);
     $conn = sqlsrv_connect($serverName,$connectionInfo );
     $query = "select SF.name,cast((U.allocated_extent_page_count*8)/1024 as int) as EspacioUtilizado, "
@@ -122,7 +146,7 @@ function ObtenerInformacionEstadistica(){
 function ObtenerArchivosBD(){
     $objDatos = json_decode(file_get_contents("php://input"));
     
-    $serverName = "ESTEBANPC\SQLEXPRESS";
+    $serverName = "CARLOS\MSSQLSERVER1";
     $connectionInfo = array("Database"=>$objDatos->dbName, "UID"=>$objDatos->userName, "PWD"=>$objDatos->password);
     $conn = sqlsrv_connect($serverName,$connectionInfo );
     $query = "SELECT name FROM sysfiles"; 
