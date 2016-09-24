@@ -13,7 +13,7 @@ angular.module('AdminSqlServer')
     
     $scope.ObtenerArchivos = function()
     {
-        $scope.url = "http://localhost:8080/ProyectoBD/ConexionBD/conexion.php?Funcion=ObtenerArchivosBD";
+        $scope.url = "http://localhost/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=ObtenerArchivosBD";
         console.log(serveData.dbName, serveData.userName, serveData.password)
         $scope.data = {"dbName":serveData.dbName,"userName":serveData.userName,"password":serveData.password}; 
         $http.post($scope.url,$scope.data).success( function(response){
@@ -30,7 +30,7 @@ angular.module('AdminSqlServer')
     $scope.ObtenerArchivos();
     $scope.ObtenerEstadisticasArchivo = function()
     {
-        $scope.url = "http://localhost:8080/ProyectoBD/ConexionBD/conexion.php?Funcion=ObtenerInformacionEstadistica";
+        $scope.url = "http://localhost/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=ObtenerInformacionEstadistica";
         $scope.data = {"dbName":serveData.dbName,"userName":serveData.userName,"password":serveData.password,"nombreArchivo":$scope.nombreArchivo};
         $http.post($scope.url,$scope.data).success( function(response){
             if(response){ 
@@ -61,7 +61,7 @@ angular.module('AdminSqlServer')
             data: {
                 labels: ["Ocupado", "Disponible", "Tamaño", "Tamaño Máximo"],
                 datasets: [{
-                    label: ['Espacio Ocupado','Espacio Disponible','Tamaño Archivo','Tamaño Máximo'],
+                    label: ['Espacios es discos'],
                     data: [($scope.tOcupado/$scope.tMax)*100, ($scope.tDisponible/$scope.tMax)*100, ($scope.tActual/$scope.tMax)*100, 100],
                     backgroundColor: [
                         'rgba(248, 6, 6, 0.9)',

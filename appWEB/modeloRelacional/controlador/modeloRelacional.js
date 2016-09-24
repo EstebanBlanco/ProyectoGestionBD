@@ -1,10 +1,9 @@
 /* global go, NaN */
 angular.module('AdminSqlServer')
-.controller("profileCtrl", function($scope,$http,$location,serveData)
+.controller("modeloRelacionalCtrl", function($scope,$http,$location,serveData)
 {
-
     $scope.get_table_and_column = function(){
-        $scope.url = "http://localhost:8080/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=GetTable_and_Column";
+        $scope.url = "http://localhost/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=GetTable_and_Column";
         console.log(serveData);
         $scope.data = {dbName: serveData.dbName,userName: serveData.userName, password: serveData.password}; 
         
@@ -12,13 +11,13 @@ angular.module('AdminSqlServer')
         function(response){
         if(response){
             $scope.array = [];
+            console.log(response);
             $scope.array = response;
             //console.log(response);
-            $scope.iniciar = function(response) {
+            $scope.iniciar = function(consulta) {
             var $ = go.GraphObject.make;  // para concisión en la definición de plantillas
-            myDiagram =
-                $(go.Diagram, "modeloRelacional",  //debe nombrar o hacer referencia al elemento DIV HTML
-                    {
+            myDiagram = //debe nombrar o hacer referencia al elemento DIV HTML
+                $(go.Diagram, "modeloRelacional",{
                         initialContentAlignment: go.Spot.Center,
                         allowDelete: false,
                         allowCopy: false,
@@ -46,7 +45,6 @@ angular.module('AdminSqlServer')
                     font: "bold 14px sans-serif" },
                   new go.Binding("text", "name"))
               );
-
             // define the Node template, representing an entity
             // definir la plantilla de nodo, que representa a una entidad
             myDiagram.nodeTemplate =
@@ -127,16 +125,23 @@ angular.module('AdminSqlServer')
               );
 
             // Creacion del modelo E-R.. punto restauracion.
+            var response = consulta[0];
+            var llavesPrimarias = consulta[2];
             var nodeDataArray2 = [];
             var NombreGlobal = "Inicio";
             for (var i = 0; i < response.length; i++) {
-                var nombreTabla = response[i].Tabla;
-                console.log(nombreTabla);
+                var nombreTabla = response[i].Tabla; 
                 if(NombreGlobal != nombreTabla){
                     var json = {key: nombreTabla, items: []};
                     for (var j = 0; j < response.length; j++) {
                         if (nombreTabla == response[j].Tabla){
-                            var ite = {name: response[j].Columna, iskey: true, figure: "Decision", color: yellowgrad };
+                            for (var m = 0; m < llavesPrimarias.length; m++){
+                                if(response[j].Columna == llavesPrimarias[m].llave){
+                                    var ite = {name: response[j].Columna, iskey: true, figure: "Decision", color: yellowgrad };
+                                    break;
+                                }
+                                else{var ite = {name: response[j].Columna, iskey: true, figure: "Cube1", color: bluegrad };}
+                            }
                             json.items.push(ite);
                         }
                     };
@@ -144,16 +149,15 @@ angular.module('AdminSqlServer')
                     nodeDataArray2.push(json);    
                 }
             };
-            console.log("Con for anidado");
-            console.log(nodeDataArray2);
-            var linkDataArray = [
-                { from: "Productos", to: "Suppliers", text: "0..N", toText: "1" },
-                { from: "Productos", to: "Categorias", text: "0..N", toText: "1" },
-                { from: "Order Details", to: "Productos", text: "0..N", toText: "1" }
-                ];
-            console.log("Antes de entar");
-            console.log(nodeDataArray2);
-            myDiagram.model = new go.GraphLinksModel(nodeDataArray2, linkDataArray);
+            var allKeyTable = consulta[1];
+            var link = [];
+            for(var i = 0; i <allKeyTable.length; i++) {
+                var json = {from: "", to: "", text: "0..N", toText: "1" }
+                json.from = allKeyTable[i].ReferenceTableName;
+                json.to = allKeyTable[i].TableName;
+                link.push(json);
+            };
+            myDiagram.model = new go.GraphLinksModel(nodeDataArray2, link);
             };
             $scope.iniciar(response);
         }
@@ -164,30 +168,5 @@ angular.module('AdminSqlServer')
     };
     $scope.get_table_and_column();   
 });
-/*
- * Ejemplo de JSON a armar
- *             var nodeDataArray = [
-              { key: "Productos",
-                items: [ { name: "ProductID", iskey: true, figure: "Decision", color: yellowgrad },
-                         { name: "ProductName", iskey: false, figure: "Cube1", color: bluegrad },
-                         { name: "SupplierID", iskey: false, figure: "Decision", color: "purple" },
-                         { name: "CategoryID", iskey: false, figure: "Decision", color: "purple" }
-                        ]},
-              { key: "Suppliers",
-                items: [ { name: "SupplierID", iskey: true, figure: "Decision", color: yellowgrad},
-                         { name: "CompanyName", iskey: false, figure: "Cube1", color: bluegrad },
-                         { name: "ContactName", iskey: false, figure: "Cube1", color: bluegrad },
-                         { name: "Address", iskey: false, figure: "Cube1", color: bluegrad } ] },
-              { key: "Categorias",
-                items: [ { name: "CategoryID", iskey: true, figure: "Decision", color: yellowgrad },
-                         { name: "CategoryName", iskey: false, figure: "Cube1", color: bluegrad },
-                         { name: "Description", iskey: false, figure: "Cube1", color: bluegrad },
-                         { name: "Picture", iskey: false, figure: "TriangleUp", color: redgrad } ] },
-              { key: "Order Details",
-                items: [ { name: "OrderID", iskey: true, figure: "Decision", color: yellowgrad },
-                         { name: "ProductID", iskey: true, figure: "Decision", color: yellowgrad },
-                         { name: "UnitPrice", iskey: false, figure: "MagneticData", color: greengrad },
-                         { name: "Quantity", iskey: false, figure: "MagneticData", color: greengrad },
-                         { name: "Discount", iskey: false, figure: "MagneticData", color: greengrad } ] }
-            ];
- */
+
+
