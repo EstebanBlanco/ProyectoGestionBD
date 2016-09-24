@@ -57,7 +57,8 @@ function GetTable_and_Column(){
     if( $conn === false ) {
         die( print_r( sqlsrv_errors(), true));
     }
-    $consulta1 = "SELECT TABLE_NAME as Tabla,COLUMN_NAME as Columna FROM INFORMATION_SCHEMA.COLUMNS";
+    $consulta1 ="select TABLE_NAME Tabla, COLUMN_NAME Columna, DATA_TYPE Tipo, CHARACTER_MAXIMUM_LENGTH Caracteres, NUMERIC_PRECISION Numerica, DATETIME_PRECISION pFecha  from INFORMATION_SCHEMA.COLUMNS";
+    //$consulta1 = "SELECT TABLE_NAME as Tabla,COLUMN_NAME as Columna FROM INFORMATION_SCHEMA.COLUMNS";
     $stmt = sqlsrv_query($conn,$consulta1);
     if( $stmt === false) {
         echo 'Entre en el error(Falso)';
