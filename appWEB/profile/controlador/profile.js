@@ -3,7 +3,7 @@ angular.module('AdminSqlServer')
 .controller("profileCtrl", function($scope,$http,$location,serveData)
 {
     $scope.get_table_and_column = function(){
-        $scope.url = "http://localhost/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=GetTable_and_Column";
+        $scope.url = "http://localhost:8080/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=GetTable_and_Column";
         console.log(serveData);
         $scope.data = {dbName: serveData.dbName,userName: serveData.userName, password: serveData.password}; 
         

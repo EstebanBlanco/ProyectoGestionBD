@@ -11,7 +11,7 @@ else
 function ConectarConUsuario(){
     $objDatos = json_decode(file_get_contents("php://input"));
     //$objDatos->dbName $objDatos->userName $objDatos->password
-    $serverName = "CARLOS\MSSQLSERVER1"; //serverName\instanceName
+    $serverName = "ESTEBANPC\SQLEXPRESS"; //serverName\instanceName
     $connectionInfo = array("Database"=>$objDatos->dbName, "UID"=>$objDatos->userName, "PWD"=>$objDatos->password);
     //$conn = sqlsrv_connect($serverName);
     $conn = sqlsrv_connect($serverName,$connectionInfo );
@@ -22,7 +22,7 @@ function ConectarConUsuario(){
 
 function GetAllDataBase(){
     $objDatos = json_decode(file_get_contents("php://input"));   
-    $serverName = "CARLOS\MSSQLSERVER1";
+    $serverName = "ESTEBANPC\SQLEXPRESS";
     $connectionInfo = array("CharacterSet" => "UTF-8", "ReturnDatesAsStrings" => true, "MultipleActiveResultSets" => true);
     $conn = sqlsrv_connect($serverName,$connectionInfo);
     $query = "SELECT name FROM master.dbo.sysdatabases WHERE name NOT IN ('master','model','msdb','tempdb')";
@@ -42,10 +42,10 @@ function GetAllDataBase(){
 
 function GetTable_and_Column(){
     $objDatos = json_decode(file_get_contents("php://input"));
-    $serverName = "CARLOS\MSSQLSERVER1";
+    $serverName = "ESTEBANPC\SQLEXPRESS";
     //$connectionInfo = array("Database"=>$objDatos->dbName, "UID"=>$objDatos->userName, "PWD"=>$objDatos->password);
         
-    $connectionInfo = array("Database"=>"RED_PARTY_TEC", "UID"=>"sa", "PWD"=>"2016","CharacterSet" => "UTF-8", "ReturnDatesAsStrings" => true, "MultipleActiveResultSets" => true);//
+    $connectionInfo = array("Database"=>"redTEC", "UID"=>"sa", "PWD"=>"gabrielwhite_525","CharacterSet" => "UTF-8", "ReturnDatesAsStrings" => true, "MultipleActiveResultSets" => true);//
     $conn = sqlsrv_connect($serverName,$connectionInfo);
     if( $conn === false ) {
         die( print_r( sqlsrv_errors(), true));
@@ -68,10 +68,10 @@ function GetTable_and_Column(){
 
 function get_Columna(){
     $objDatos = json_decode(file_get_contents("php://input"));
-    $serverName = "CARLOS\MSSQLSERVER1";
+    $serverName = "ESTEBANPC\SQLEXPRESS";
     //$connectionInfo = array("Database"=>$objDatos->dbName, "UID"=>$objDatos->userName, "PWD"=>$objDatos->password);
         
-    $connectionInfo = array("Database"=>"RED_PARTY_TEC", "UID"=>"sa", "PWD"=>"2016","CharacterSet" => "UTF-8", "ReturnDatesAsStrings" => true, "MultipleActiveResultSets" => true);//
+    $connectionInfo = array("Database"=>"redTEC", "UID"=>"sa", "PWD"=>"gabrielwhite_525","CharacterSet" => "UTF-8", "ReturnDatesAsStrings" => true, "MultipleActiveResultSets" => true);//
     $conn = sqlsrv_connect($serverName,$connectionInfo);
     if( $conn === false ) {
         die( print_r( sqlsrv_errors(), true));
