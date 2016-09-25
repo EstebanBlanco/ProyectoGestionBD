@@ -99,9 +99,10 @@ function GetTable_and_Column(){
 
 function get_Columna(){
     $objDatos = json_decode(file_get_contents("php://input"));
+
     $serverName = "ESTEBANPC\SQLEXPRESS";
     $connectionInfo = array("Database"=>$objDatos->dbName, "UID"=>$objDatos->userName, "PWD"=>$objDatos->password);
-        
+  
     //$connectionInfo = array("Database"=>"redTEC", "UID"=>"sa", "PWD"=>"gabrielwhite_525","CharacterSet" => "UTF-8", "ReturnDatesAsStrings" => true, "MultipleActiveResultSets" => true);//
     $conn = sqlsrv_connect($serverName,$connectionInfo);
     if( $conn === false ) {
@@ -169,6 +170,146 @@ function ObtenerArchivosBD(){
         $rows[]= $row;
     }
     echo (json_encode($rows));
+    sqlsrv_free_stmt( $stmt);  
+    sqlsrv_close($conn); 
+}
+
+function ObtenerFilegroupsBD(){
+    $objDatos = json_decode(file_get_contents("php://input"));
+    
+    $serverName = "ESTEBANPC\SQLEXPRESS";
+    $connectionInfo = array("Database"=>$objDatos->dbName, "UID"=>$objDatos->userName, "PWD"=>$objDatos->password);
+    $conn = sqlsrv_connect($serverName,$connectionInfo );
+    $query = "SELECT name FROM sys.filegroups"; 
+    $stmt = sqlsrv_query($conn,$query);
+    //$stmt = sqlsrv_prepare($conn, $sql);
+    //$result = sqlsrv_execute($stmt);
+    if( $stmt === false) {
+        die( print_r( sqlsrv_errors(), true) );
+    }
+    $rows = array();  
+
+    while( $row = sqlsrv_fetch_object($stmt)){
+        $rows[]= $row;
+    }
+    echo (json_encode($rows));
+    sqlsrv_free_stmt( $stmt);  
+    sqlsrv_close($conn); 
+}
+
+
+function CrearFilegroup(){
+    $objDatos = json_decode(file_get_contents("php://input"));
+    
+    $serverName = "ESTEBANPC\SQLEXPRESS";
+    $connectionInfo = array("Database"=>$objDatos->dbName, "UID"=>$objDatos->userName, "PWD"=>$objDatos->password);
+    $conn = sqlsrv_connect($serverName,$connectionInfo );
+    $query = "ALTER DATABASE ".$objDatos->dbName." ADD FILEGROUP ".$objDatos->nombreFG;
+    $stmt = sqlsrv_query($conn,$query);
+    //$stmt = sqlsrv_prepare($conn, $sql);
+    //$result = sqlsrv_execute($stmt);
+    if( $stmt === false) {
+        die( print_r( sqlsrv_errors(), true) );
+    }
+    $rows = array();  
+
+    while( $row = sqlsrv_fetch_object($stmt)){
+        $rows[]= $row;
+    }
+    echo (json_encode($rows));
+    sqlsrv_free_stmt( $stmt);  
+    sqlsrv_close($conn); 
+}
+
+function CrearArchivo(){
+    $objDatos = json_decode(file_get_contents("php://input"));
+    
+    $serverName = "ESTEBANPC\SQLEXPRESS";
+    $connectionInfo = array("Database"=>$objDatos->dbName, "UID"=>$objDatos->userName, "PWD"=>$objDatos->password);
+    $conn = sqlsrv_connect($serverName,$connectionInfo );
+    $query = "ALTER DATABASE ".$objDatos->dbName." "
+        . "ADD FILE (NAME = ".$objDatos->nombreFile.", "
+        . "FILENAME = 'C:\\xampp\htdocs\AdministradorBaseDatosSQLServer\CarpetaArchivos\\".$objDatos->nombreFile.".ndf', "
+        . "SIZE = ".$objDatos->size."MB,"
+        . "MAXSIZE = ".$objDatos->maxSize."MB, "
+        . "FILEGROWTH = ".$objDatos->filegrowth."MB) "
+        . "TO FILEGROUP ".$objDatos->filegroup;
+
+    $stmt = sqlsrv_query($conn,$query);
+    //$stmt = sqlsrv_prepare($conn, $sql);
+    //$result = sqlsrv_execute($stmt);
+    if( $stmt === false) {
+        die( print_r( sqlsrv_errors(), true) );
+    }
+    $rows = array();  
+
+    while( $row = sqlsrv_fetch_object($stmt)){
+        $rows[]= $row;
+    }
+    echo (json_encode($rows));
+    sqlsrv_free_stmt( $stmt);  
+    sqlsrv_close($conn); 
+}
+
+
+function ModificarArchivo(){
+    $objDatos = json_decode(file_get_contents("php://input"));
+    
+    $serverName = "ESTEBANPC\SQLEXPRESS";
+    $connectionInfo = array("Database"=>$objDatos->dbName, "UID"=>$objDatos->userName, "PWD"=>$objDatos->password);
+    $conn = sqlsrv_connect($serverName,$connectionInfo );
+   
+    if ($objDatos->listaModif[0] == TRUE)
+    {
+       $query = "ALTER DATABASE ".$objDatos->dbName." "
+               . "MODIFY FILE ("
+               . "NAME = ".$objDatos->nombreFile.", "
+               . "NEWNAME = ".$objDatos->nuevoNombre.", "
+               . "FILENAME = 'C:\\xampp\htdocs\AdministradorBaseDatosSQLServer\CarpetaArchivos\\".$objDatos->nuevoNombre.".ndf')";
+        $stmt = sqlsrv_query($conn,$query);
+        if( $stmt === false) {
+            die( print_r( sqlsrv_errors(), true) );
+        }
+    }
+    if ($objDatos->listaModif[1] == TRUE)
+    {
+       $query = "ALTER DATABASE ".$objDatos->dbName." "
+               . "MODIFY FILE ("
+               . "NAME = ".$objDatos->nombreFile.", "
+               . "SIZE = ".$objDatos->size."MB)";
+        $stmt = sqlsrv_query($conn,$query);
+        if( $stmt === false) {
+            die( print_r( sqlsrv_errors(), true) );
+        }
+    }
+    if ($objDatos->listaModif[2] == TRUE)
+    {
+       $query = "ALTER DATABASE ".$objDatos->dbName." "
+               . "MODIFY FILE ("
+               . "NAME = ".$objDatos->nombreFile.", "
+               . "MAXSIZE = ".$objDatos->maxSize."MB)";
+        $stmt = sqlsrv_query($conn,$query);
+        if( $stmt === false) {
+            die( print_r( sqlsrv_errors(), true) );
+        }
+    }
+    if ($objDatos->listaModif[3] == TRUE)
+    {
+       $query = "ALTER DATABASE ".$objDatos->dbName." "
+               . "MODIFY FILE ("
+               . "NAME = ".$objDatos->nombreFile.", "
+               . "FILEGROWTH = ".$objDatos->filegrowth."MB)";
+        $stmt = sqlsrv_query($conn,$query);
+        if( $stmt === false) {
+            die( print_r( sqlsrv_errors(), true) );
+        }
+    }
+    $query = " ";
+    $stmt = sqlsrv_query($conn,$query);
+    if( $stmt === false) {
+        die( print_r( sqlsrv_errors(), true) );
+    }
+    
     sqlsrv_free_stmt( $stmt);  
     sqlsrv_close($conn); 
 }

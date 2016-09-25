@@ -1,0 +1,65 @@
+<div class="fondoProfile">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+              </button>
+              <a class="navbar-brand" href="#/profile">{{baseConectada}}</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <ul class="nav navbar-nav">
+                <li><a href="#modeloRelacional">M.Relacional</a></li>
+                <li><a href="#archivos">Archivos</a></li>
+                <li><a href="#estadisticas">Estadisticas de uso</a></li>
+              </ul>
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="#/">Salir</a></li>
+              </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+    <div style="width: 500px; margin-left: 450px">
+        <h3 style="text-align: center">Archivos</h3>
+        <form>
+            <div class="form-group">
+                <label>Seleccione una opción: </label>
+                <select class="form-control" ng-model="opcion">
+                    <option value='archivo'>Archivo</option> 
+                    <option value='filegroup'>Filegroup</option> 
+                </select>
+            </div>
+            <br>
+            <div class="form-group">
+                <label>Seleccione una acción a realizar: </label>
+                <select class="form-control" ng-model="accion">
+                    <option value="agregar">Agregar</option> 
+                    <option ng-show="opcion=='archivo'" value="modificar">Modificar</option> 
+                </select>
+            </div>
+            <br>
+            <div class="form-group" ng-show="opcion=='archivo' && accion =='agregar'">
+                <label>En el Filegroup: </label>
+                <select class="form-control" ng-model="filegroup">
+                    <option ng-repeat="fg in listaFgs" value="{{fg.name}}">{{fg.name}}</option>  
+                </select>
+            </div>
+            <br>
+
+            <div class="form-group">
+                <input class="form-control" placeholder="Nombre" ng-model="nombre">
+            </div>
+            <div class="form-group" ng-show="opcion=='archivo'">
+                <input class="form-control" ng-show="accion=='modificar'" placeholder="Nuevo nombre" ng-model="nuevoNombre">
+                <input class="form-control" placeholder="Tamaño" ng-model="size">
+                <input class="form-control" placeholder="Tamaño Máximo" ng-model="maxSize">
+                <input class="form-control" placeholder="Crecimiento" ng-model="filegrowth">
+            </div>
+            <div style="margin-left: 225px">    
+                <button class="btn btn-info" ng-click="ProcesarOperacionArchivo()">GO</button>
+            </div>
+        </form>
+    </div>
+</div>

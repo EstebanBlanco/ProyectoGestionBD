@@ -2,6 +2,7 @@
 angular.module('AdminSqlServer')
 .controller("modeloRelacionalCtrl", function($scope,$http,$location,serveData)
 {
+    $scope.baseConectada = serveData.dbName;
     $scope.get_table_and_column = function(){
         $scope.url = "http://localhost:8080/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=GetTable_and_Column";
         console.log(serveData);

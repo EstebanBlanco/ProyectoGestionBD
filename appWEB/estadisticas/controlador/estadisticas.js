@@ -8,6 +8,7 @@ angular.module('AdminSqlServer')
     $scope.tDisponible;
     $scope.tActual;
     $scope.tMax;
+    $scope.baseConectada = serveData.dbName;
     var ctx;
     
     

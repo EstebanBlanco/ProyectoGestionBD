@@ -27,6 +27,10 @@ angular.module('AdminSqlServer', ['ngRoute'])
             templateUrl	: 'appWEB/estadisticas/estadisticas.html',
             controller 	: 'ControladorEstadisticas'          
         })
+        .when('/archivos', {
+            templateUrl	: 'appWEB/archivos/archivos.html',
+            controller 	: 'archivosCtrl'          
+        })
         .otherwise({
             redirectTo: '/'
         });
