@@ -138,10 +138,35 @@ angular.module('AdminSqlServer')
                         if (nombreTabla == response[j].Tabla){
                             for (var m = 0; m < llavesPrimarias.length; m++){
                                 if(response[j].Columna == llavesPrimarias[m].llave){
-                                    var ite = {name: response[j].Columna, iskey: true, figure: "Decision", color: yellowgrad };
-                                    break;
+                                    console.log(response[j]);
+                                    if(response[j].Caracteres != null){
+                                        var ite = {name: response[j].Columna+" ("+response[j].Tipo+") "+response[j].Caracteres, iskey: true, figure: "Decision", color: yellowgrad };
+                                        break;
+                                    }
+                                    if(response[j].Numerica != null){
+                                        var ite = {name: response[j].Columna+" ("+response[j].Tipo+") "+response[j].Numerica, iskey: true, figure: "Decision", color: yellowgrad };
+                                        break;
+                                    }
+                                    if(response[j].pFecha != null){
+                                        var ite = {name: response[j].Columna+" ("+response[j].Tipo+") "+response[j].pFecha, iskey: true, figure: "Decision", color: yellowgrad };
+                                        break;
+                                    }
                                 }
-                                else{var ite = {name: response[j].Columna, iskey: true, figure: "Cube1", color: bluegrad };}
+                                else{
+                                     if(response[j].Caracteres != null){
+                                        var ite = {name: response[j].Columna+" ("+response[j].Tipo+") "+response[j].Caracteres, iskey: false, figure: "Cube1", color: bluegrad};
+                                        break;
+                                    }
+                                    if(response[j].Numerica != null){
+                                        var ite = {name: response[j].Columna+" ("+response[j].Tipo+") "+response[j].Numerica, iskey: false, figure: "Cube1", color: bluegrad};
+                                        break;
+                                    }
+                                    if(response[j].pFecha != null){
+                                        var ite = {name: response[j].Columna+" ("+response[j].Tipo+") "+response[j].pFecha, iskey: false, figure: "Cube1", color: bluegrad};
+                                        break;
+                                    }
+                                    //var ite = {name: response[j].Columna+" ("+response[j].Tipo+") "+response[j].Caracteres+" "+response[j].Numerica+" "+response[j].pFecha, iskey: false, figure: "Cube1", color: bluegrad };
+                                }
                             }
                             json.items.push(ite);
                         }
@@ -153,7 +178,7 @@ angular.module('AdminSqlServer')
             var allKeyTable = consulta[1];
             var link = [];
             for(var i = 0; i <allKeyTable.length; i++) {
-                var json = {from: "", to: "", text: "0..N", toText: "1" }
+                var json = {from: "", to: ""};
                 json.from = allKeyTable[i].ReferenceTableName;
                 json.to = allKeyTable[i].TableName;
                 link.push(json);

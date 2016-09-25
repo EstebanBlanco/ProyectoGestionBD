@@ -1,4 +1,4 @@
 $(document).ready(function(){
-    $('#drag').draggable();
+    $('#myModal').modal(options)
 });
 

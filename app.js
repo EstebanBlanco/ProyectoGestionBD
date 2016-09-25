@@ -20,7 +20,7 @@ angular.module('AdminSqlServer', ['ngRoute'])
             templateUrl	: 'appWEB/modeloRelacional/modeloRelacional.html',
             controller 	: 'modeloRelacionalCtrl'          
         }).when('/tablas', {
-            templateUrl	: 'appWEB/modeloRelacinal/tablas.html',
+            templateUrl	: 'appWEB/modeloRelacional/tablas.html',
             controller 	: 'tablasCtrl'          
         })
         .when('/estadisticas', {

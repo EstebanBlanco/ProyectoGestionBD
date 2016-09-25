@@ -69,7 +69,7 @@ angular.module('AdminSqlServer')
                     $scope.maxSize.length>0,$scope.filegrowth.length > 0]
                 console.log($scope.listaModif);
                 $scope.data = {"dbName":serveData.dbName,"userName":serveData.userName,"password":serveData.password,
-                    "nombreFile":$scope.nombre,"nuevoNombre":$scope.nuevoNombre,"size":$scope.size,"maxSize":$scope.maxSize,
+                    "nombreFile":$scope.nombre,"nuevoNombre":serveData.dbName+$scope.nuevoNombre,"size":$scope.size,"maxSize":$scope.maxSize,
                     "filegrowth":$scope.filegrowth,"listaModif":$scope.listaModif}; 
                 $http.post($scope.url,$scope.data).success( function(response){
                     if(response){ 

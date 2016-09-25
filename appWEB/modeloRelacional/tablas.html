@@ -1,0 +1,92 @@
+<div class="fondoProfile">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+              </button>
+              <a class="navbar-brand" href="#/profile">{{baseConectada}}</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <ul class="nav navbar-nav">
+                <li><a href="#modeloRelacional">M.Relacional</a></li>
+                <li><a href="#archivos">Archivos</a></li>
+                <li><a href="#estadisticas">Estadisticas de uso</a></li>
+              </ul>
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="#/">Salir</a></li>
+              </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+    <div>
+        <div class="container">
+            <h2>{{baseConectada}}</h2>
+            <div style="float: left;width: 400px">
+                <form>
+                    <div class="form-group">
+                        <label>Nombre Tabla:</label>
+                        <input class="form-control" ng-model="nombreTabla">
+                    </div>
+                    <div class="form-group">
+                        <label for="pwd">Esquema</label>
+                        <select class="form-control"  ng-model="esquemaSeleccionado">
+                            <option ng-repeat="esquema in listaEsquemas" value="{{esquema.Nombre}}">{{esquema.Nombre}}</option>
+                        </select>
+                    </div>
+                    <h3 style="text-align: center">Columnas</h3>
+                    <div class="form-group">
+                        <label for="nameColumn">Nombre Columna:</label>
+                        <input id="nameColumn" type="text" class="form-control" ng-model="nombreColumna">
+                    </div>
+                    <div class="form-group">
+                        <label for="pwd">Tipo de Datos</label>
+                        <select class="form-control"  ng-model="tipoSeleccionado">
+                            <option ng-repeat="tipo in tiposDatos" value="{{tipo}}">{{tipo}}</option>
+                        </select>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" type="checkbox" ng-model="primaryKey" id="blankCheckbox">
+                            Es llave primaria
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" type="checkbox" ng-model="isNull" id="blankCheckbox">
+                            NULL
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary" ng-click="agregarColumna(nombreColumna,tipoSeleccionado,primaryKey,isNull)" >Agregar Columna</button>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary" ng-click="agregarTabla(nombreTabla,esquemaSeleccionado)" >Agregar Tabla</button>
+                    </div>
+                </form>
+            </div>
+            <div style="float: left;width: 600px; margin-left: 30px">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Columna</th>
+                            <th>Tipo</th>
+                            <th>PK</th>
+                            <th>null</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="columna in Columnas">
+                            <td>{{columna.Columna}}</td>
+                            <td>{{columna.Tipo}}</td>
+                            <td>{{columna.esLlave}}</td>
+                            <td>{{columna.esNull}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
