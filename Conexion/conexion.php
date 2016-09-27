@@ -379,3 +379,113 @@ function AddTabla(){
     sqlsrv_close( $conn);
     
 }
+
+function ObtenerTablas(){
+    $objDatos = json_decode(file_get_contents("php://input"));
+    $serverName = "ESTEBANPC\SQLEXPRESS";
+    $connectionInfo = array("Database"=>$objDatos->dbName, "UID"=>$objDatos->userName, "PWD"=>$objDatos->password,"CharacterSet" => "UTF-8", "ReturnDatesAsStrings" => true, "MultipleActiveResultSets" => true);
+    $conn = sqlsrv_connect($serverName,$connectionInfo);
+        if( $conn === false ) {
+        die( print_r( sqlsrv_errors(), true));
+    }
+    $query = "SELECT TABLE_NAME as name FROM INFORMATION_SCHEMA.TABLES";
+
+    $stmt = sqlsrv_query($conn,$query);
+    if( $stmt === false) {
+        die( print_r( sqlsrv_errors(), true) );
+    }
+    $rows = array();  
+
+    while( $row = sqlsrv_fetch_object($stmt)){
+        $rows[]= $row;
+    }
+    echo (json_encode($rows));
+    sqlsrv_free_stmt( $stmt);  
+    sqlsrv_close($conn); 
+    
+}
+
+
+function ObtenerPKs(){
+    $objDatos = json_decode(file_get_contents("php://input"));
+
+    $serverName = "ESTEBANPC\SQLEXPRESS";
+    $connectionInfo = array("Database"=>$objDatos->dbName, "UID"=>$objDatos->userName, "PWD"=>$objDatos->password);
+  
+    //$connectionInfo = array("Database"=>"redTEC", "UID"=>"sa", "PWD"=>"gabrielwhite_525","CharacterSet" => "UTF-8", "ReturnDatesAsStrings" => true, "MultipleActiveResultSets" => true);//
+    $conn = sqlsrv_connect($serverName,$connectionInfo);
+    if( $conn === false ) {
+        die( print_r( sqlsrv_errors(), true));
+    }
+    $sql =  "SELECT Col.Column_Name as llave from"
+            . " INFORMATION_SCHEMA.TABLE_CONSTRAINTS Tab,INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE Col"
+            . " WHERE Col.Constraint_Name = Tab.Constraint_Name AND "
+            . "Col.Table_Name = '$objDatos->Tabla' AND Constraint_Type = 'PRIMARY KEY'";
+    $stmt = sqlsrv_query($conn,$sql);
+    if( $stmt === false) {
+        echo 'Entre en el error(Falso)';
+        die( print_r( sqlsrv_errors(), true) );
+    }
+    $rows = array();
+    while( $row = sqlsrv_fetch_object($stmt)){
+        $rows[]= $row;
+    }
+    echo (json_encode($rows));
+    sqlsrv_free_stmt( $stmt);  
+    sqlsrv_close( $conn);   
+}
+
+
+function CrearFK(){
+    $objDatos = json_decode(file_get_contents("php://input"));
+
+    $serverName = "ESTEBANPC\SQLEXPRESS";
+    $connectionInfo = array("Database"=>$objDatos->dbName, "UID"=>$objDatos->userName, "PWD"=>$objDatos->password);
+  
+    //$connectionInfo = array("Database"=>"redTEC", "UID"=>"sa", "PWD"=>"gabrielwhite_525","CharacterSet" => "UTF-8", "ReturnDatesAsStrings" => true, "MultipleActiveResultSets" => true);//
+    $conn = sqlsrv_connect($serverName,$connectionInfo);
+    if( $conn === false ) {
+        die( print_r( sqlsrv_errors(), true));
+    }
+    $query ="ALTER TABLE ".$objDatos->TablaRef." ADD CONSTRAINT FK_".$objDatos->ColumnaRef."_".$objDatos->TablaRef.""
+            . " FOREIGN KEY (".$objDatos->ColumnaRef.") REFERENCES ".$objDatos->TablaPK." (".$objDatos->ColumnaPK.")";
+    echo $query;
+    $stmt = sqlsrv_query($conn,$query);
+    if( $stmt === false) {
+        echo 'Entre en el error(Falso)';
+        die( print_r( sqlsrv_errors(), true) );
+    }
+    $rows = array();
+    while( $row = sqlsrv_fetch_object($stmt)){
+        $rows[]= $row;
+    }
+    echo (json_encode($rows));
+    sqlsrv_free_stmt( $stmt);  
+    sqlsrv_close( $conn);   
+}
+
+function EliminarFK(){
+    $objDatos = json_decode(file_get_contents("php://input"));
+
+    $serverName = "ESTEBANPC\SQLEXPRESS";
+    $connectionInfo = array("Database"=>$objDatos->dbName, "UID"=>$objDatos->userName, "PWD"=>$objDatos->password);
+  
+    //$connectionInfo = array("Database"=>"redTEC", "UID"=>"sa", "PWD"=>"gabrielwhite_525","CharacterSet" => "UTF-8", "ReturnDatesAsStrings" => true, "MultipleActiveResultSets" => true);//
+    $conn = sqlsrv_connect($serverName,$connectionInfo);
+    if( $conn === false ) {
+        die( print_r( sqlsrv_errors(), true));
+    }
+    $sql =  "ALTER TABLE ".$objDatos->TablaRef." DROP CONSTRAINT FK_".$objDatos->ColumnaRef."_".$objDatos->TablaRef." ";
+    $stmt = sqlsrv_query($conn,$sql);
+    if( $stmt === false) {
+        echo 'Entre en el error(Falso)';
+        die( print_r( sqlsrv_errors(), true) );
+    }
+    $rows = array();
+    while( $row = sqlsrv_fetch_object($stmt)){
+        $rows[]= $row;
+    }
+    echo (json_encode($rows));
+    sqlsrv_free_stmt( $stmt);  
+    sqlsrv_close( $conn);   
+}

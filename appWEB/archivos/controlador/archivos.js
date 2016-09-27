@@ -23,7 +23,24 @@ angular.module('AdminSqlServer')
         }); 
     };
     
+    $scope.ObtenerArchs = function()
+    {
+        $scope.url = "http://localhost:8080/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=ObtenerArchivosBD";
+        console.log(serveData.dbName, serveData.userName, serveData.password)
+        $scope.data = {"dbName":serveData.dbName,"userName":serveData.userName,"password":serveData.password}; 
+        $http.post($scope.url,$scope.data).success( function(response){
+            if(response){ 
+                console.log(response);
+                $scope.listaArchs = response;
+            }
+            else{
+                alert("..¡Fallo la conecion con Sql Server.");
+            }
+        }); 
+    };
+    
     $scope.ObtenerFileGroups();
+    $scope.ObtenerArchs();
     $scope.ProcesarOperacionArchivo = function()
     {   
         if ($scope.opcion == 'filegroup'){
@@ -69,7 +86,7 @@ angular.module('AdminSqlServer')
                     $scope.maxSize.length>0,$scope.filegrowth.length > 0]
                 console.log($scope.listaModif);
                 $scope.data = {"dbName":serveData.dbName,"userName":serveData.userName,"password":serveData.password,
-                    "nombreFile":$scope.nombre,"nuevoNombre":serveData.dbName+$scope.nuevoNombre,"size":$scope.size,"maxSize":$scope.maxSize,
+                    "nombreFile":$scope.arch,"nuevoNombre":serveData.dbName+$scope.nuevoNombre,"size":$scope.size,"maxSize":$scope.maxSize,
                     "filegrowth":$scope.filegrowth,"listaModif":$scope.listaModif}; 
                 $http.post($scope.url,$scope.data).success( function(response){
                     if(response){ 
