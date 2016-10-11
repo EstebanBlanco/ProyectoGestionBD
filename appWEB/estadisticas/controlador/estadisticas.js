@@ -11,7 +11,7 @@ angular.module('AdminSqlServer')
     $scope.baseConectada = serveData.dbName;
     var ctx;
     
-    
+    /*Obtencion de los nombres de los archivos para mostrarlos al usuario*/
     $scope.ObtenerArchivos = function()
     {
         $scope.url = "http://localhost/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=ObtenerArchivosBD";
@@ -29,6 +29,13 @@ angular.module('AdminSqlServer')
     };
     
     $scope.ObtenerArchivos();
+    
+    /*Obtencion de los datos de los archivos para alimentar el grafico:
+     * Espacio ocupado
+     * Espacio Libre
+     * Tamaño Actual
+     * Tamaño Máximo
+     * */
     $scope.ObtenerEstadisticasArchivo = function()
     {
         $scope.url = "http://localhost/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=ObtenerInformacionEstadistica";
@@ -49,7 +56,11 @@ angular.module('AdminSqlServer')
             }
         }); 
     };
-
+   
+  
+    
+    /*Pintar el gráfico con los datos del archivo seleccionado
+     *Formato JSON, requerido por GoJs */
     $scope.VerGrafico = function()
     {
         ctx= document.getElementById("myChart");

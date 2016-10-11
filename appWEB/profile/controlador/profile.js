@@ -2,5 +2,5 @@
 angular.module('AdminSqlServer')
 .controller("profileCtrl", function($scope,$http,$location,serveData)
 {
-    $scope.baseConectada = serveData.dbName;
+    $scope.baseConectada = serveData.dbName;   
 });

@@ -3,6 +3,10 @@ angular.module('AdminSqlServer')
 .controller("modeloRelacionalCtrl", function($scope,$http,$location,serveData)
 {
     $scope.baseConectada = serveData.dbName;
+    
+    /*Obtencion de las tablas de una base de datos, así como sus respectivas columnas y sus llaves primarias, para 
+     * posteriormente realizar el diagrama de la BD a partir de dichos datos.
+     * */
     $scope.get_table_and_column = function(){
         $scope.url = "http://localhost/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=GetTable_and_Column";
         console.log(serveData);
@@ -138,6 +142,7 @@ angular.module('AdminSqlServer')
                         if (nombreTabla == response[j].Tabla){
                             for (var m = 0; m < llavesPrimarias.length; m++){
                                 if(response[j].Columna == llavesPrimarias[m].llave){
+                                    console.log(response[j]);
                                     if(response[j].Caracteres != null){
                                         var ite = {name: response[j].Columna+" ("+response[j].Tipo+") "+response[j].Caracteres, iskey: true, figure: "Decision", color: yellowgrad };
                                         break;

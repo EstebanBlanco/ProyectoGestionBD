@@ -8,6 +8,11 @@ else
     echo '..¡No la encuentro!';
 }
 
+/*
+ * Función que valida si el usuario existe en la BD.
+ * Entradas: Nombre de servidor, nombre de BD, nombre de usuario, contraseña.
+ * Salidas: Acceso a la base de datos o mensaje de acceso denegado.
+ */
 function ConectarConUsuario(){
     $objDatos = json_decode(file_get_contents("php://input"));
     //$objDatos->dbName $objDatos->userName $objDatos->password
@@ -20,7 +25,11 @@ function ConectarConUsuario(){
     }
 }
 
-
+/*
+ * Función que obtiene todas las bases de datos existentes en el servidor.
+ * Entradas: Nombre de servidor, nombre usuario, contraseña.
+ * Salidas: Lista de bases de datos que existen en el servidor.
+ */
 function GetAllDataBase(){
     $objDatos = json_decode(file_get_contents("php://input"));   
     $serverName = "CARLOS\MSSQLSERVER1";
@@ -41,15 +50,15 @@ function GetAllDataBase(){
     sqlsrv_close( $conn);  
 }
 
-
+/*
+ * Función que obtiene las tablas de la BD y las columnas y llaves primarias asociadas a cada tabla.
+ * Entradas: Nombre de servidor, nombre de BD, nombre de usuario, contraseña.
+   Salidas: Tablas, columnas y PKs de la BD.
+ */
 function GetTable_and_Column(){
     $objDatos = json_decode(file_get_contents("php://input"));
 
-    /*$serverName = "ESTEBANPC\SQLEXPRESS";
-    //$connectionInfo = array("Database"=>$objDatos->dbName, "UID"=>$objDatos->userName, "PWD"=>$objDatos->password);
-        
-    $connectionInfo = array("Database"=>"redTEC", "UID"=>"sa", "PWD"=>"gabrielwhite_525","CharacterSet" => "UTF-8", "ReturnDatesAsStrings" => true, "MultipleActiveResultSets" => true);//
-*/
+    
     $serverName = "CARLOS\MSSQLSERVER1";
     $connectionInfo = array("Database"=>$objDatos->dbName, "UID"=>$objDatos->userName, "PWD"=>$objDatos->password,"CharacterSet" => "UTF-8", "ReturnDatesAsStrings" => true, "MultipleActiveResultSets" => true);
         
@@ -100,7 +109,11 @@ function GetTable_and_Column(){
     sqlsrv_close( $conn);   
 }
 
-
+/*
+ * Función que obtiene las columnas de una tabla determinada.
+ * Entradas: Nombre de servidor, nombre de BD, nombre de usuario, contraseña, nombre de tabla.
+ * Salidas: Columnas asociadas a la tabla dada.
+ */
 function get_Columna(){
     $objDatos = json_decode(file_get_contents("php://input"));
 
@@ -127,7 +140,12 @@ function get_Columna(){
     sqlsrv_close( $conn);   
 }
 
-
+/*
+ * Función que obtiene el espacio utilizado, espacio disponible, tamaño total y tamaño maximo de un archivo de base de datos.
+ * Requiere una conversión de páginas (8KB) a MB.
+ * Entradas: Nombre de servidor, nombre de BD, nombre de usuario, contraseña, nombre de archivo.
+ * Salidas: Detalle de espacio espacio utilizado, espacio disponible, tamaño total y tamaño maximo del archivo dado.
+ */
 function ObtenerInformacionEstadistica(){
     $objDatos = json_decode(file_get_contents("php://input"));
     
@@ -156,7 +174,11 @@ function ObtenerInformacionEstadistica(){
     sqlsrv_close($conn); 
 }
 
-
+/*
+ * Función que obtiene los archivos existentes en una BD.
+ * Entradas: Nombre de servidor, nombre de BD, nombre de usuario, contraseña.
+ * Salidas: Lista de archivos que pertenecen a la BD.
+ */
 function ObtenerArchivosBD(){
     $objDatos = json_decode(file_get_contents("php://input"));
     
@@ -180,7 +202,11 @@ function ObtenerArchivosBD(){
     sqlsrv_close($conn); 
 }
 
-
+/*
+ * Función que obtiene los nombres de los filegroups en la BD.
+ * Entradas: Nombre de servidor, nombre de BD, nombre de usuario, contraseña.
+ * Salidas: Lista de los nombres de los filegroups de la BD.
+ */
 function ObtenerFilegroupsBD(){
     $objDatos = json_decode(file_get_contents("php://input"));
     
@@ -202,8 +228,12 @@ function ObtenerFilegroupsBD(){
     sqlsrv_free_stmt( $stmt);  
     sqlsrv_close($conn); 
 }
-
-
+       
+/*
+ * Función que obtiene los esquemas existentes en la BD.
+ * Entradas: Nombre de servidor, nombre de BD, nombre de usuario, contraseña.
+ * Salidas: Lista de esquemas de la BD.
+ */
 function GetAllSchemes(){
     $objDatos = json_decode(file_get_contents("php://input"));
     $serverName = "CARLOS\MSSQLSERVER1";
@@ -226,7 +256,11 @@ function GetAllSchemes(){
     sqlsrv_close($conn); 
 }
 
-
+/*
+ * Función que inserta un filegroup en la BD.
+ * Entradas: Nombre de servidor, nombre de BD, nombre de usuario, contraseña, nombre del filegroup.
+ * Salidas: Notificación de exito o fracaso.
+ */
 function CrearFilegroup(){
     $objDatos = json_decode(file_get_contents("php://input"));
     
@@ -250,7 +284,12 @@ function CrearFilegroup(){
     sqlsrv_close($conn); 
 }
 
-
+/*
+ * Función que inserta un nuevo archivo en la BD.
+ * Entradas: Nombre de servidor, nombre de BD, nombre de usuario, contraseña, nombre del nuevo archivo,
+ * tamaño inicial, tamaño máximo, crecimiento, filegroup asociado.
+ * Salidas: Mensaje de éxito o fracaso.
+ */
 function CrearArchivo(){
     $objDatos = json_decode(file_get_contents("php://input"));
     
@@ -281,7 +320,12 @@ function CrearArchivo(){
     sqlsrv_close($conn); 
 }
 
-
+/*
+ * Función que modifica un archivo existente en la BD.
+ * Entradas: Nombre de servidor, nombre de BD, nombre de usuario, contraseña, nombre del archivo, nuevo nombre de archivo, 
+ * nuevo tamaño, nuevo tamaño máximo, nuevo crecimiento.
+ * Salidas: Mensaje de éxito o fracaso.
+ */
 function ModificarArchivo(){
     $objDatos = json_decode(file_get_contents("php://input"));
     
@@ -334,11 +378,22 @@ function ModificarArchivo(){
             die( print_r( sqlsrv_errors(), true) );
         }
     }
+    $query = " ";
+    $stmt = sqlsrv_query($conn,$query);
+    if( $stmt === false) {
+        die( print_r( sqlsrv_errors(), true) );
+    }
+    
     sqlsrv_free_stmt( $stmt);  
     sqlsrv_close($conn); 
 }
 
-
+/*
+ * Función que inserta una tabla en la BD.
+ * Entradas: Nombre de servidor, nombre de BD, nombre de usuario, contraseña, nombre de la tabla, 
+ * lista de columnas con tipo y precision.
+ * Salidas: Notificación de exito o fracaso.
+ */
 function AddTabla(){
     $objDatos = json_decode(file_get_contents("php://input"));
     $serverName = "CARLOS\MSSQLSERVER1";
@@ -370,22 +425,26 @@ function AddTabla(){
     $sql = $creacion;
     $stmt = sqlsrv_query($conn,$sql);
     if( $stmt === false) {
-        echo sqlsrv_errors();
         die( print_r( sqlsrv_errors(), true) );
     }
     $rows = array();
     while( $row = sqlsrv_fetch_object($stmt)){
         $rows[]= $row;
     }
-    echo ("¡¡Se agrego la nueva tabla con exito!!");
+    echo (json_encode($stmt));
     sqlsrv_free_stmt( $stmt);  
     sqlsrv_close( $conn);
     
 }
 
+/*
+ * Función que obtiene todas las tablas de la BD.
+ * Entradas: Nombre de servidor, nombre de BD, nombre de usuario, contraseña.
+ * Salidas: Lista de tablas de la BD.
+ */
 function ObtenerTablas(){
     $objDatos = json_decode(file_get_contents("php://input"));
-    $serverName = "ESTEBANPC\SQLEXPRESS";
+    $serverName = "CARLOS\MSSQLSERVER1";
     $connectionInfo = array("Database"=>$objDatos->dbName, "UID"=>$objDatos->userName, "PWD"=>$objDatos->password,"CharacterSet" => "UTF-8", "ReturnDatesAsStrings" => true, "MultipleActiveResultSets" => true);
     $conn = sqlsrv_connect($serverName,$connectionInfo);
         if( $conn === false ) {
@@ -408,14 +467,17 @@ function ObtenerTablas(){
     
 }
 
-
+/*
+ * Función que obtiene las llaves primarias filegroup en la BD.
+ * Entradas: Nombre de servidor, nombre de BD, nombre de usuario, contraseña, nombre de la tabla.
+ * Salidas: Llave(s) primaria(s) de la tabla dada.
+ */
 function ObtenerPKs(){
     $objDatos = json_decode(file_get_contents("php://input"));
 
-    $serverName = "ESTEBANPC\SQLEXPRESS";
+    $serverName = "CARLOS\MSSQLSERVER1";
     $connectionInfo = array("Database"=>$objDatos->dbName, "UID"=>$objDatos->userName, "PWD"=>$objDatos->password);
   
-    //$connectionInfo = array("Database"=>"redTEC", "UID"=>"sa", "PWD"=>"gabrielwhite_525","CharacterSet" => "UTF-8", "ReturnDatesAsStrings" => true, "MultipleActiveResultSets" => true);//
     $conn = sqlsrv_connect($serverName,$connectionInfo);
     if( $conn === false ) {
         die( print_r( sqlsrv_errors(), true));
@@ -438,11 +500,16 @@ function ObtenerPKs(){
     sqlsrv_close( $conn);   
 }
 
-
+/*
+ * Función que inserta un constraint de llave foránea BD.
+ * Entradas: Nombre de servidor, nombre de BD, nombre de usuario, contraseña, nombre tabla de la FK, columna FK,
+ * tabla que se referencia, llave primaria que se referencia.
+ * Salidas: Notificación de exito o fracaso.
+ */
 function CrearFK(){
     $objDatos = json_decode(file_get_contents("php://input"));
 
-    $serverName = "ESTEBANPC\SQLEXPRESS";
+    $serverName = "CARLOS\MSSQLSERVER1";
     $connectionInfo = array("Database"=>$objDatos->dbName, "UID"=>$objDatos->userName, "PWD"=>$objDatos->password);
   
     //$connectionInfo = array("Database"=>"redTEC", "UID"=>"sa", "PWD"=>"gabrielwhite_525","CharacterSet" => "UTF-8", "ReturnDatesAsStrings" => true, "MultipleActiveResultSets" => true);//
@@ -467,10 +534,15 @@ function CrearFK(){
     sqlsrv_close( $conn);   
 }
 
+/*
+ * Función que elimina una llave foranea de la BD.
+ * Entradas: Nombre de servidor, nombre de BD, nombre de usuario, contraseña, nombre de la tabla FK, nombre de la columna FK.
+ * Salidas: Notificación de exito o fracaso.
+ */
 function EliminarFK(){
     $objDatos = json_decode(file_get_contents("php://input"));
 
-    $serverName = "ESTEBANPC\SQLEXPRESS";
+    $serverName = "CARLOS\MSSQLSERVER1";
     $connectionInfo = array("Database"=>$objDatos->dbName, "UID"=>$objDatos->userName, "PWD"=>$objDatos->password);
   
     //$connectionInfo = array("Database"=>"redTEC", "UID"=>"sa", "PWD"=>"gabrielwhite_525","CharacterSet" => "UTF-8", "ReturnDatesAsStrings" => true, "MultipleActiveResultSets" => true);//

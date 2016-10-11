@@ -1,12 +1,15 @@
 angular.module('AdminSqlServer')
 .controller("fkCtrl", function($scope,$http,$location,serveData)
 {
+    $scope.baseConectada = serveData.dbName;   
     $scope.ObtenerColumnas;
     $scope.CrearFK;
+    $scope.EliminarFK;
  
+    /*Obtencion de los nombres de las tablas*/
     $scope.ObtenerTablas = function()
     {
-        $scope.url = "http://localhost:8080/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=ObtenerTablas";
+        $scope.url = "http://localhost/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=ObtenerTablas";
         console.log(serveData.dbName, serveData.userName, serveData.password)
         $scope.data = {"dbName":serveData.dbName,"userName":serveData.userName,"password":serveData.password}; 
         $http.post($scope.url,$scope.data).success( function(response){
@@ -22,9 +25,10 @@ angular.module('AdminSqlServer')
     };
     $scope.ObtenerTablas();
     
+    /*Obtencion de las columnas de una tabla específica*/
     $scope.ObtenerColumnas = function()
     {
-        $scope.url = "http://localhost:8080/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=get_Columna";
+        $scope.url = "http://localhost/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=get_Columna";
         console.log(serveData.dbName, serveData.userName, serveData.password)
         $scope.data = {"dbName":serveData.dbName,"userName":serveData.userName,"password":serveData.password,"Tabla":$scope.tablaDestino}; 
         $http.post($scope.url,$scope.data).success( function(response){
@@ -38,9 +42,10 @@ angular.module('AdminSqlServer')
         }); 
     };
     
+    /*Obtencion de los nombres de las llaves primarias de una tabla específica*/
     $scope.ObtenerLlavesPrimarias = function()
     {
-        $scope.url = "http://localhost:8080/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=ObtenerPKs";
+        $scope.url = "http://localhost/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=ObtenerPKs";
         console.log(serveData.dbName, serveData.userName, serveData.password)
         $scope.data = {"dbName":serveData.dbName,"userName":serveData.userName,"password":serveData.password,"Tabla":$scope.tablaOrigen}; 
         $http.post($scope.url,$scope.data).success( function(response){
@@ -54,9 +59,15 @@ angular.module('AdminSqlServer')
         }); 
     };
     
+    /*Creación de una llave foránea a partir de:
+     * Tabla donde irá la FK
+     * Columna FK
+     * Tabla referenciada
+     * Columna referenciada
+     * */
     $scope.CrearFK = function()
     {
-        $scope.url = "http://localhost:8080/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=CrearFK";
+        $scope.url = "http://localhost/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=CrearFK";
         console.log(serveData.dbName, serveData.userName, serveData.password);
         $scope.data = {"dbName":serveData.dbName,"userName":serveData.userName,"password":serveData.password,
             "TablaRef":$scope.tablaDestino,"ColumnaRef":$scope.columnaDestino,"TablaPK":$scope.tablaOrigen,"ColumnaPK":$scope.columnaOrigen}; 
@@ -71,9 +82,12 @@ angular.module('AdminSqlServer')
         }); 
     };
     
+    /*Eliminar una llave foránea a partir de:
+     * Nombre de la tabla a la que pertenece
+     * Nombre de la columna FK*/
     $scope.EliminarFK = function()
     {
-        $scope.url = "http://localhost:8080/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=EliminarFK";
+        $scope.url = "http://localhost/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=EliminarFK";
         console.log(serveData.dbName, serveData.userName, serveData.password);
         $scope.data = {"dbName":serveData.dbName,"userName":serveData.userName,"password":serveData.password,
             "TablaRef":$scope.tablaDestino,"ColumnaRef":$scope.columnaDestino}; 

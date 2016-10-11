@@ -14,6 +14,7 @@
                 <li><a href="#modeloRelacional">M.Relacional</a></li>
                 <li><a href="#archivos">Archivos</a></li>
                 <li><a href="#estadisticas">Estadisticas de uso</a></li>
+                <li><a href="#foreignKeys">Llaves Foraneas</a></li>
               </ul>
               <ul class="nav navbar-nav navbar-right">
                 <li><a href="#/">Salir</a></li>
@@ -34,12 +35,6 @@
                         <label for="pwd">Esquema</label>
                         <select class="form-control"  ng-model="esquemaSeleccionado">
                             <option ng-repeat="esquema in listaEsquemas" value="{{esquema.Nombre}}">{{esquema.Nombre}}</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Grupos de Archivos</label>
-                        <select class="form-control"  ng-model="archivoSeleccionado">
-                            <option ng-repeat="archivo in listaArchivos" value="{{archivo.name}}">{{archivo.name}}</option>
                         </select>
                     </div>
                     <h3 style="text-align: center">Columnas</h3>

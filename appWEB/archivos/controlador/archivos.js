@@ -1,22 +1,23 @@
 angular.module('AdminSqlServer')
 .controller("archivosCtrl", function($scope,$http,$location,serveData)
 {
-    $scope.ProcesarOperacionArchivo;
-    $scope.opcion = 'archivo';
-    $scope.accion = 'agregar';
-    $scope.nuevoNombre = "";
-    $scope.size = "";
-    $scope.maxSize = "";
-    $scope.filegrowth = "";
-    $scope.baseConectada = serveData.dbName;
-    
+    $scope.baseConectada = serveData.dbName;   
+     $scope.ProcesarOperacionArchivo;
+     $scope.opcion = 'archivo';
+     $scope.accion = 'agregar';
+     $scope.nuevoNombre = "";
+     $scope.size = "";
+     $scope.maxSize = "";
+     $scope.filegrowth = "";
+     
+     /*Obtencion de los nombres de los filegroups*/
       $scope.ObtenerFileGroups = function()
     {
         $scope.url = "http://localhost/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=ObtenerFilegroupsBD";
         $scope.data = {"dbName":serveData.dbName,"userName":serveData.userName,"password":serveData.password}; 
         $http.post($scope.url,$scope.data).success( function(response){
             if(response){ 
-                alert(response);
+                console.log(response);
                 $scope.listaFgs = response;
             }
             else{
@@ -25,6 +26,7 @@ angular.module('AdminSqlServer')
         }); 
     };
     
+    /*Obtencion de los nombres de los archivos*/
     $scope.ObtenerArchs = function()
     {
         $scope.url = "http://localhost:8080/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=ObtenerArchivosBD";
@@ -43,10 +45,16 @@ angular.module('AdminSqlServer')
     
     $scope.ObtenerFileGroups();
     $scope.ObtenerArchs();
+    
+    /*Operaciones de la vista Archivos:
+     * Agregar Filegroups
+     * Agregar Archivos
+     * Modificar uno o mas atributos de un archivo
+     * */
     $scope.ProcesarOperacionArchivo = function()
     {   
         if ($scope.opcion == 'filegroup'){
-            $scope.url = "http://localhost/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=CrearFilegroup";
+            $scope.url = "http://localhost:8080/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=CrearFilegroup";
             $scope.nombreF = serveData.dbName+$scope.nombre;
             console.log($scope.nombreF);
             $scope.data = {"dbName":serveData.dbName,"userName":serveData.userName,"password":serveData.password, "nombreFG":$scope.nombreF}; 
@@ -64,7 +72,7 @@ angular.module('AdminSqlServer')
         else
         {
             if ($scope.accion == 'agregar'){
-                $scope.url = "http://localhost/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=CrearArchivo";
+                $scope.url = "http://localhost:8080/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=CrearArchivo";
                 $scope.nombreF = serveData.dbName+$scope.nombre;
                 console.log($scope.nombreF);
                 $scope.data = {"dbName":serveData.dbName,"userName":serveData.userName,"password":serveData.password,
@@ -83,7 +91,7 @@ angular.module('AdminSqlServer')
             }
             else
             {
-                $scope.url = "http://localhost/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=ModificarArchivo";
+                $scope.url = "http://localhost:8080/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=ModificarArchivo";
                 $scope.listaModif = [$scope.nuevoNombre.length>0,$scope.size.length>0,
                     $scope.maxSize.length>0,$scope.filegrowth.length > 0]
                 console.log($scope.listaModif);
