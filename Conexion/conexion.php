@@ -11,7 +11,7 @@ else
 function ConectarConUsuario(){
     $objDatos = json_decode(file_get_contents("php://input"));
     //$objDatos->dbName $objDatos->userName $objDatos->password
-    $serverName = "ESTEBANPC\SQLEXPRESS"; //serverName\instanceName
+    $serverName = "CARLOS\MSSQLSERVER1"; //serverName\instanceName
     $connectionInfo = array("Database"=>$objDatos->dbName, "UID"=>$objDatos->userName, "PWD"=>$objDatos->password);
     //$conn = sqlsrv_connect($serverName);
     $conn = sqlsrv_connect($serverName,$connectionInfo );
@@ -20,9 +20,10 @@ function ConectarConUsuario(){
     }
 }
 
+
 function GetAllDataBase(){
     $objDatos = json_decode(file_get_contents("php://input"));   
-    $serverName = "ESTEBANPC\SQLEXPRESS";
+    $serverName = "CARLOS\MSSQLSERVER1";
     $connectionInfo = array("CharacterSet" => "UTF-8", "ReturnDatesAsStrings" => true, "MultipleActiveResultSets" => true);
     $conn = sqlsrv_connect($serverName,$connectionInfo);
     $query = "SELECT name FROM master.dbo.sysdatabases WHERE name NOT IN ('master','model','msdb','tempdb')";
@@ -40,6 +41,7 @@ function GetAllDataBase(){
     sqlsrv_close( $conn);  
 }
 
+
 function GetTable_and_Column(){
     $objDatos = json_decode(file_get_contents("php://input"));
 
@@ -48,7 +50,7 @@ function GetTable_and_Column(){
         
     $connectionInfo = array("Database"=>"redTEC", "UID"=>"sa", "PWD"=>"gabrielwhite_525","CharacterSet" => "UTF-8", "ReturnDatesAsStrings" => true, "MultipleActiveResultSets" => true);//
 */
-    $serverName = "ESTEBANPC\SQLEXPRESS";
+    $serverName = "CARLOS\MSSQLSERVER1";
     $connectionInfo = array("Database"=>$objDatos->dbName, "UID"=>$objDatos->userName, "PWD"=>$objDatos->password,"CharacterSet" => "UTF-8", "ReturnDatesAsStrings" => true, "MultipleActiveResultSets" => true);
         
     //$connectionInfo = array("Database"=>"RED_PARTY_TEC", "UID"=>"sa", "PWD"=>"2016","CharacterSet" => "UTF-8", "ReturnDatesAsStrings" => true, "MultipleActiveResultSets" => true);//
@@ -98,10 +100,11 @@ function GetTable_and_Column(){
     sqlsrv_close( $conn);   
 }
 
+
 function get_Columna(){
     $objDatos = json_decode(file_get_contents("php://input"));
 
-    $serverName = "ESTEBANPC\SQLEXPRESS";
+    $serverName = "CARLOS\MSSQLSERVER1";
     $connectionInfo = array("Database"=>$objDatos->dbName, "UID"=>$objDatos->userName, "PWD"=>$objDatos->password);
   
     //$connectionInfo = array("Database"=>"redTEC", "UID"=>"sa", "PWD"=>"gabrielwhite_525","CharacterSet" => "UTF-8", "ReturnDatesAsStrings" => true, "MultipleActiveResultSets" => true);//
@@ -124,10 +127,11 @@ function get_Columna(){
     sqlsrv_close( $conn);   
 }
 
+
 function ObtenerInformacionEstadistica(){
     $objDatos = json_decode(file_get_contents("php://input"));
     
-    $serverName = "ESTEBANPC\SQLEXPRESS"; //serverName\instanceName
+    $serverName = "CARLOS\MSSQLSERVER1"; //serverName\instanceName
     $connectionInfo = array("Database"=>$objDatos->dbName, "UID"=>$objDatos->userName, "PWD"=>$objDatos->password);
     $conn = sqlsrv_connect($serverName,$connectionInfo );
     $query = "select SF.name,cast((U.allocated_extent_page_count*8)/1024 as int) as EspacioUtilizado, "
@@ -152,10 +156,11 @@ function ObtenerInformacionEstadistica(){
     sqlsrv_close($conn); 
 }
 
+
 function ObtenerArchivosBD(){
     $objDatos = json_decode(file_get_contents("php://input"));
     
-    $serverName = "ESTEBANPC\SQLEXPRESS";
+    $serverName = "CARLOS\MSSQLSERVER1";
     $connectionInfo = array("Database"=>$objDatos->dbName, "UID"=>$objDatos->userName, "PWD"=>$objDatos->password);
     $conn = sqlsrv_connect($serverName,$connectionInfo );
     $query = "SELECT name FROM sysfiles"; 
@@ -179,7 +184,7 @@ function ObtenerArchivosBD(){
 function ObtenerFilegroupsBD(){
     $objDatos = json_decode(file_get_contents("php://input"));
     
-    $serverName = "ESTEBANPC\SQLEXPRESS";
+    $serverName = "CARLOS\MSSQLSERVER1";
     $connectionInfo = array("Database"=>$objDatos->dbName, "UID"=>$objDatos->userName, "PWD"=>$objDatos->password);
     $conn = sqlsrv_connect($serverName,$connectionInfo );
     $query = "SELECT name FROM sys.filegroups"; 
@@ -197,10 +202,11 @@ function ObtenerFilegroupsBD(){
     sqlsrv_free_stmt( $stmt);  
     sqlsrv_close($conn); 
 }
-        
+
+
 function GetAllSchemes(){
     $objDatos = json_decode(file_get_contents("php://input"));
-    $serverName = "ESTEBANPC\SQLEXPRESS";
+    $serverName = "CARLOS\MSSQLSERVER1";
     $connectionInfo = array("Database"=>$objDatos->dbName, "UID"=>$objDatos->userName, "PWD"=>$objDatos->password,"CharacterSet" => "UTF-8", "ReturnDatesAsStrings" => true, "MultipleActiveResultSets" => true);
     $conn = sqlsrv_connect($serverName,$connectionInfo);
     if( $conn === false ) {
@@ -224,7 +230,7 @@ function GetAllSchemes(){
 function CrearFilegroup(){
     $objDatos = json_decode(file_get_contents("php://input"));
     
-    $serverName = "ESTEBANPC\SQLEXPRESS";
+    $serverName = "CARLOS\MSSQLSERVER1";
     $connectionInfo = array("Database"=>$objDatos->dbName, "UID"=>$objDatos->userName, "PWD"=>$objDatos->password);
     $conn = sqlsrv_connect($serverName,$connectionInfo );
     $query = "ALTER DATABASE ".$objDatos->dbName." ADD FILEGROUP ".$objDatos->nombreFG;
@@ -244,10 +250,11 @@ function CrearFilegroup(){
     sqlsrv_close($conn); 
 }
 
+
 function CrearArchivo(){
     $objDatos = json_decode(file_get_contents("php://input"));
     
-    $serverName = "ESTEBANPC\SQLEXPRESS";
+    $serverName = "CARLOS\MSSQLSERVER1";
     $connectionInfo = array("Database"=>$objDatos->dbName, "UID"=>$objDatos->userName, "PWD"=>$objDatos->password);
     $conn = sqlsrv_connect($serverName,$connectionInfo );
     $query = "ALTER DATABASE ".$objDatos->dbName." "
@@ -278,7 +285,7 @@ function CrearArchivo(){
 function ModificarArchivo(){
     $objDatos = json_decode(file_get_contents("php://input"));
     
-    $serverName = "ESTEBANPC\SQLEXPRESS";
+    $serverName = "CARLOS\MSSQLSERVER1";
     $connectionInfo = array("Database"=>$objDatos->dbName, "UID"=>$objDatos->userName, "PWD"=>$objDatos->password);
     $conn = sqlsrv_connect($serverName,$connectionInfo );
    
@@ -327,19 +334,14 @@ function ModificarArchivo(){
             die( print_r( sqlsrv_errors(), true) );
         }
     }
-    $query = " ";
-    $stmt = sqlsrv_query($conn,$query);
-    if( $stmt === false) {
-        die( print_r( sqlsrv_errors(), true) );
-    }
-    
     sqlsrv_free_stmt( $stmt);  
     sqlsrv_close($conn); 
 }
 
+
 function AddTabla(){
     $objDatos = json_decode(file_get_contents("php://input"));
-    $serverName = "ESTEBANPC\SQLEXPRESS";
+    $serverName = "CARLOS\MSSQLSERVER1";
     $connectionInfo = array("Database"=>$objDatos->dbName, "UID"=>$objDatos->userName, "PWD"=>$objDatos->password,"CharacterSet" => "UTF-8", "ReturnDatesAsStrings" => true, "MultipleActiveResultSets" => true);
     $conn = sqlsrv_connect($serverName,$connectionInfo);
         if( $conn === false ) {
@@ -368,13 +370,14 @@ function AddTabla(){
     $sql = $creacion;
     $stmt = sqlsrv_query($conn,$sql);
     if( $stmt === false) {
+        echo sqlsrv_errors();
         die( print_r( sqlsrv_errors(), true) );
     }
     $rows = array();
     while( $row = sqlsrv_fetch_object($stmt)){
         $rows[]= $row;
     }
-    echo (json_encode($stmt));
+    echo ("¡¡Se agrego la nueva tabla con exito!!");
     sqlsrv_free_stmt( $stmt);  
     sqlsrv_close( $conn);
     

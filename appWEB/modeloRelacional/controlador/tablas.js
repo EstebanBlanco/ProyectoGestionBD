@@ -1,16 +1,16 @@
 /* global go, NaN */
 angular.module('AdminSqlServer')
 .controller("tablasCtrl", function($scope,$http,$location,serveData)
-{
-    
+{  
     $scope.baseConectada = serveData.dbName;
     $scope.esquemaSeleccionado = "";
     $scope.primaryKey = false;
     $scope.isNull = false;
     $scope.tiposDatos = ["int","varchar","char","datetime"];
     $scope.tipoSeleccionado = "";
+    $scope.archivoSeleccionado = "";
     $scope.traerEsquemas = function(){
-        $scope.url = "http://localhost:8080/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=GetAllSchemes";
+        $scope.url = "http://localhost/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=GetAllSchemes";
         $scope.data = {dbName: serveData.dbName,userName: serveData.userName, password: serveData.password};     
         $http.post($scope.url,$scope.data).success( function(response){
             if(response){
@@ -38,18 +38,15 @@ angular.module('AdminSqlServer')
             $scope.Columnas.push({Columna:nombreColumna,Tipo:tipoSeleccionado,esLlave:"",esNull:"not null"});
             console.log($scope.Columnas);
             return;
-        }
-        
-        
-        
+        }    
     };
     
     $scope.agregarTabla = function(nombreTabla,esquemaSeleccionado){
-        $scope.url = "http://localhost:8080/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=AddTabla";
+        $scope.url = "http://localhost/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=AddTabla";
         $scope.data = {dbName: serveData.dbName,userName: serveData.userName, password: serveData.password, NombreTabla:nombreTabla, Esquema:esquemaSeleccionado, Columnas:$scope.Columnas};     
         $http.post($scope.url,$scope.data).success( function(response){
             if(response){
-                console.log(response);        
+                alert(response);        
             }
             else{
                 alert("..¡Fallo la conecion con Sql Server.");
@@ -57,6 +54,21 @@ angular.module('AdminSqlServer')
         }); 
     };
     $scope.traerEsquemas();
+    
+    $scope.ObtenerFileGroups = function(){
+        $scope.url = "http://localhost/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=ObtenerFilegroupsBD";
+        $scope.data = {"dbName":serveData.dbName,"userName":serveData.userName,"password":serveData.password}; 
+        $http.post($scope.url,$scope.data).success( function(response){
+            if(response){ 
+                alert(response);
+                $scope.listaArchivos = response;
+            }
+            else{
+                alert("..¡Fallo la conecion con Sql Server.");
+            }
+        }); 
+    };
+    $scope.ObtenerFileGroups();
 });
 
 

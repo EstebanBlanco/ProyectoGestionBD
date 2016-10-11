@@ -4,7 +4,7 @@ angular.module('AdminSqlServer')
 {
     $scope.baseConectada = serveData.dbName;
     $scope.get_table_and_column = function(){
-        $scope.url = "http://localhost:8080/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=GetTable_and_Column";
+        $scope.url = "http://localhost/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=GetTable_and_Column";
         console.log(serveData);
         $scope.data = {dbName: serveData.dbName,userName: serveData.userName, password: serveData.password}; 
         
@@ -138,7 +138,6 @@ angular.module('AdminSqlServer')
                         if (nombreTabla == response[j].Tabla){
                             for (var m = 0; m < llavesPrimarias.length; m++){
                                 if(response[j].Columna == llavesPrimarias[m].llave){
-                                    console.log(response[j]);
                                     if(response[j].Caracteres != null){
                                         var ite = {name: response[j].Columna+" ("+response[j].Tipo+") "+response[j].Caracteres, iskey: true, figure: "Decision", color: yellowgrad };
                                         break;

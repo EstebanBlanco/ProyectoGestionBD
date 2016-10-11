@@ -3,8 +3,7 @@ angular.module('AdminSqlServer')
 {
     $scope.GetAllDataBase = function()
     {
-        console.log($scope.baseSeleccionada)
-        $scope.url = "http://localhost:8080/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=GetAllDataBase";
+        $scope.url = "http://localhost/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=GetAllDataBase";
         $scope.data = {"":""};     
         $http.post($scope.url,$scope.data).success( function(response){
             if(response){ 
@@ -16,10 +15,12 @@ angular.module('AdminSqlServer')
             }
         }); 
     };
+    console.log("Mae afuera del callback");
+    console.log($scope.allDateBase);
     $scope.GetAllDataBase();
     
     $scope.conexionSqlServer = function(dbName,userName,password){
-    	$scope.url = "http://localhost:8080/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=ConectarConUsuario";
+    	$scope.url = "http://localhost/AdministradorBaseDatosSQLServer/Conexion/conexion.php?Funcion=ConectarConUsuario";
         $scope.data = {dbName: dbName,userName: userName, password:password};     
         $http.post($scope.url,$scope.data)
         .success(function (response)

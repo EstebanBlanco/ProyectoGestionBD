@@ -36,6 +36,12 @@
                             <option ng-repeat="esquema in listaEsquemas" value="{{esquema.Nombre}}">{{esquema.Nombre}}</option>
                         </select>
                     </div>
+                    <div class="form-group">
+                        <label>Grupos de Archivos</label>
+                        <select class="form-control"  ng-model="archivoSeleccionado">
+                            <option ng-repeat="archivo in listaArchivos" value="{{archivo.name}}">{{archivo.name}}</option>
+                        </select>
+                    </div>
                     <h3 style="text-align: center">Columnas</h3>
                     <div class="form-group">
                         <label for="nameColumn">Nombre Columna:</label>
