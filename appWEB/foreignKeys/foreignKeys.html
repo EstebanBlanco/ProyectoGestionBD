@@ -1,0 +1,61 @@
+<div class="fondoProfile">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+              </button>
+              <a class="navbar-brand" href="#/profile">{{baseConectada}}</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <ul class="nav navbar-nav">
+                <li><a href="#modeloRelacional">M.Relacional</a></li>
+                <li><a href="#estadisticas">Estadisticas de uso</a></li>
+                <li><a href="#tablas">Tablas</a></li>
+              </ul>
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="#/">Salir</a></li>
+              </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+    <div style="width: 500px; margin-left: 450px">
+        <h3 style="text-align: center">Operaciones de llaves foráneas</h3>
+        <form>
+            <div class="form-group">
+                <label>En la tabla: </label>
+                <select class="form-control" ng-model="tablaDestino" ng-change="ObtenerColumnas()">
+                    <option ng-repeat="tabD in listaTabsD" value="{{tabD.name}}">{{tabD.name}}</option>  
+                </select>
+            </div>
+            <br>
+            <div class="form-group">
+                <label>En la columna: </label>
+                <select class="form-control" ng-model="columnaDestino">
+                    <option ng-repeat="colD in listaColsD" value="{{colD.Columnas}}">{{colD.Columnas}}</option>  
+                </select>
+            </div>
+            <br>
+            <div class="form-group">
+                <label>Referencia la tabla: </label>
+                <select class="form-control" ng-model="tablaOrigen" ng-change="ObtenerLlavesPrimarias()">
+                    <option ng-repeat="tabO in listaTabsO" value="{{tabO.name}}">{{tabO.name}}</option>  
+                </select>
+            </div>
+            <br>
+            <div class="form-group">
+                <label>En la llave primaria: </label>
+                <select class="form-control" ng-model="columnaOrigen">
+                    <option ng-repeat="colO in listaColsO" value="{{colO.llave}}">{{colO.llave}}</option>  
+                </select>
+            </div>
+            <br>
+            <div style="margin-left: 175px">    
+                <button class="btn btn-info" ng-click="CrearFK()">Agregar</button>
+                <button class="btn btn-danger" ng-click="EliminarFK()">Eliminar</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -31,6 +31,10 @@ angular.module('AdminSqlServer', ['ngRoute'])
             templateUrl	: 'appWEB/archivos/archivos.html',
             controller 	: 'archivosCtrl'          
         })
+        .when('/foreignKeys', {
+            templateUrl	: 'appWEB/foreignKeys/foreignKeys.html',
+            controller 	: 'fkCtrl'          
+        })
         .otherwise({
             redirectTo: '/'
         });

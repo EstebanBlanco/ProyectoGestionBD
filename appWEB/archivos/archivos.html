@@ -49,7 +49,10 @@
             <br>
 
             <div class="form-group">
-                <input class="form-control" placeholder="Nombre" ng-model="nombre">
+                <input ng-hide="opcion=='archivo' && accion =='modificar'" class="form-control" placeholder="Nombre" ng-model="nombre">
+                <select ng-show="opcion=='archivo' && accion =='modificar'" class="form-control" ng-model="arch">
+                    <option ng-repeat="arch in listaArchs" value="{{arch.name}}">{{arch.name}}</option>  
+                </select>
             </div>
             <div class="form-group" ng-show="opcion=='archivo'">
                 <input class="form-control" ng-show="accion=='modificar'" placeholder="Nuevo nombre" ng-model="nuevoNombre">

@@ -52,6 +52,7 @@
         <script type="text/javascript" src="appWEB/profile/controlador/profile.js"></script>
         <script type="text/javascript" src="appWEB/modeloRelacional/controlador/modeloRelacional.js"></script>
         <script type="text/javascript" src="appWEB/modeloRelacional/controlador/tablas.js"></script>
-        <script type="text/javascript" src="appWEB/archivos/controlador/archivos.js">s</script>
+        <script type="text/javascript" src="appWEB/archivos/controlador/archivos.js"></script>
+        <script type="text/javascript" src="appWEB/foreignKeys/controlador/foreignKeys.js"></script>
     </body>
 </html>
